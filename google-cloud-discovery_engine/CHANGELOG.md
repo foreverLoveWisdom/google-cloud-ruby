@@ -1,5 +1,31 @@
 # Changelog
 
+### 1.0.0 (2024-06-26)
+
+#### Features
+
+* Bump version to 1.0.0 
+
+### 0.7.0 (2024-05-31)
+
+#### Features
+
+* Add control service APIs 
+* Promote answer APIs to v1 GA 
+* Promote grounding check APIs to v1 GA 
+* Promote ranking APIs to v1 GA 
+* Promote various APIs to v1 GA ([#25965](https://github.com/googleapis/google-cloud-ruby/issues/25965)) 
+* Support cancelling import operations 
+* Support writing user events for blended engines 
+
+### 0.6.0 (2024-04-19)
+
+#### Features
+
+* Promote various services to client libraries (e.g. recommendation, blending & healthcare search) ([#25672](https://github.com/googleapis/google-cloud-ruby/issues/25672)) 
+* Support boosting on multi-turn searches 
+* Support data import from Cloud Spanner, BigTable, SQL and Firestore 
+
 ### 0.5.0 (2024-02-26)
 
 #### Features

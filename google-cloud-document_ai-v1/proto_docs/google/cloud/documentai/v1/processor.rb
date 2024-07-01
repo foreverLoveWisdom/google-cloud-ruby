@@ -27,7 +27,7 @@ module Google
         # Its document-processing behavior is defined by that version.
         # @!attribute [rw] name
         #   @return [::String]
-        #     The resource name of the processor version.
+        #     Identifier. The resource name of the processor version.
         #     Format:
         #     `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}`
         # @!attribute [rw] display_name
@@ -36,9 +36,9 @@ module Google
         # @!attribute [rw] document_schema
         #   @return [::Google::Cloud::DocumentAI::V1::DocumentSchema]
         #     The schema of the processor version. Describes the output.
-        # @!attribute [rw] state
+        # @!attribute [r] state
         #   @return [::Google::Cloud::DocumentAI::V1::ProcessorVersion::State]
-        #     The state of the processor version.
+        #     Output only. The state of the processor version.
         # @!attribute [rw] create_time
         #   @return [::Google::Protobuf::Timestamp]
         #     The time the processor version was created.
@@ -60,6 +60,12 @@ module Google
         # @!attribute [r] model_type
         #   @return [::Google::Cloud::DocumentAI::V1::ProcessorVersion::ModelType]
         #     Output only. The model type of this processor version.
+        # @!attribute [r] satisfies_pzs
+        #   @return [::Boolean]
+        #     Output only. Reserved for future use.
+        # @!attribute [r] satisfies_pzi
+        #   @return [::Boolean]
+        #     Output only. Reserved for future use.
         class ProcessorVersion
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -165,6 +171,12 @@ module Google
         #   @return [::String]
         #     The [KMS key](https://cloud.google.com/security-key-management) used for
         #     encryption and decryption in CMEK scenarios.
+        # @!attribute [r] satisfies_pzs
+        #   @return [::Boolean]
+        #     Output only. Reserved for future use.
+        # @!attribute [r] satisfies_pzi
+        #   @return [::Boolean]
+        #     Output only. Reserved for future use.
         class Processor
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods

@@ -32,6 +32,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "discoveryengine.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -250,10 +253,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_schema.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1beta::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -306,9 +310,9 @@ module Google
             #     to return. The service may return fewer than this value.
             #
             #     If unspecified, at most 100
-            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema}s will be returned.
+            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema}s are returned.
             #
-            #     The maximum value is 1000; values above 1000 will be coerced to 1000.
+            #     The maximum value is 1000; values above 1000 are set to 1000.
             #   @param page_token [::String]
             #     A page token, received from a previous
             #     {::Google::Cloud::DiscoveryEngine::V1beta::SchemaService::Client#list_schemas SchemaService.ListSchemas}
@@ -356,10 +360,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_schemas.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1beta::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -413,7 +418,7 @@ module Google
             #     create.
             #   @param schema_id [::String]
             #     Required. The ID to use for the
-            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema}, which will become the
+            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema}, which becomes the
             #     final component of the
             #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema#name Schema.name}.
             #
@@ -462,10 +467,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_schema.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1beta::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -517,8 +523,8 @@ module Google
             #   @param allow_missing [::Boolean]
             #     If set to true, and the
             #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema} is not found, a new
-            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema} will be created. In
-            #     this situation, `update_mask` is ignored.
+            #     {::Google::Cloud::DiscoveryEngine::V1beta::Schema Schema} is created. In this
+            #     situation, `update_mask` is ignored.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::Operation]
@@ -561,10 +567,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_schema.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1beta::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -655,10 +662,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_schema.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1beta::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

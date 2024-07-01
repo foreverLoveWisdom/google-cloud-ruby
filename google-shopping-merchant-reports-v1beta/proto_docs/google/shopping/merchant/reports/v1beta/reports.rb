@@ -37,7 +37,7 @@ module Google
           # @!attribute [rw] page_size
           #   @return [::Integer]
           #     Optional. Number of `ReportRows` to retrieve in a single page. Defaults to
-          #     the maximum of 1000. Values above 1000 are coerced to 1000.
+          #     1000. Values above 5000 are coerced to 5000.
           # @!attribute [rw] page_token
           #   @return [::String]
           #     Optional. Token of the page to retrieve. If not specified, the first page
@@ -70,6 +70,9 @@ module Google
           # @!attribute [rw] product_performance_view
           #   @return [::Google::Shopping::Merchant::Reports::V1beta::ProductPerformanceView]
           #     Fields available for query in `product_performance_view` table.
+          # @!attribute [rw] non_product_performance_view
+          #   @return [::Google::Shopping::Merchant::Reports::V1beta::NonProductPerformanceView]
+          #     Fields available for query in `non_product_performance_view` table.
           # @!attribute [rw] product_view
           #   @return [::Google::Shopping::Merchant::Reports::V1beta::ProductView]
           #     Fields available for query in `product_view` table.
@@ -335,7 +338,7 @@ module Google
           #   @return [::String]
           #     Normalized [shipping
           #     label](https://support.google.com/merchants/answer/6324504) specified in
-          #     the feed.
+          #     the data source.
           # @!attribute [rw] gtin
           #   @return [::Array<::String>]
           #     List of Global Trade Item Numbers (GTINs) of the product.
@@ -364,6 +367,15 @@ module Google
           #     **Only selected attributes of this field (for example,
           #     `item_issues.severity.aggregated_severity`) can be used for filtering the
           #     results.**
+          # @!attribute [rw] click_potential
+          #   @return [::Google::Shopping::Merchant::Reports::V1beta::ProductView::ClickPotential]
+          #     Estimated performance potential compared to highest performing products of
+          #     the merchant.
+          # @!attribute [rw] click_potential_rank
+          #   @return [::Integer]
+          #     Rank of the product based on its click potential. A product with
+          #     `click_potential_rank` 1 has the highest click potential among the
+          #     merchant's products that fulfill the search query conditions.
           class ProductView
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -460,7 +472,7 @@ module Google
             #
             # Here's an example of how the aggregated status is computed:
             #
-            # Free listings | Shopping Ads | Status
+            # Free listings | Shopping ads | Status
             # --------------|--------------|------------------------------
             # Approved      | Approved     | ELIGIBLE
             # Approved      | Pending      | ELIGIBLE
@@ -482,6 +494,29 @@ module Google
 
               # Product is eligible for all reporting contexts.
               ELIGIBLE = 4
+            end
+
+            # A product's [click
+            # potential](https://support.google.com/merchants/answer/188488) estimates
+            # its performance potential compared to highest performing products of the
+            # merchant. Click potential of a product helps merchants to prioritize which
+            # products to fix and helps them understand how products are performing
+            # against their potential.
+            module ClickPotential
+              # Unknown predicted clicks impact.
+              CLICK_POTENTIAL_UNSPECIFIED = 0
+
+              # Potential to receive a low number of clicks compared to the highest
+              # performing products of the merchant.
+              LOW = 1
+
+              # Potential to receive a moderate number of clicks compared to the highest
+              # performing products of the merchant.
+              MEDIUM = 2
+
+              # Potential to receive a similar number of clicks as the highest performing
+              # products of the merchant.
+              HIGH = 3
             end
           end
 
@@ -649,9 +684,33 @@ module Google
           #     Predicted change in conversions as a fraction after introducing the
           #     suggested price compared to current active price. For example, 0.05 is a 5%
           #     predicted increase in conversions).
+          # @!attribute [rw] effectiveness
+          #   @return [::Google::Shopping::Merchant::Reports::V1beta::PriceInsightsProductView::Effectiveness]
+          #     The predicted effectiveness of applying the price suggestion, bucketed.
           class PriceInsightsProductView
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
+
+            # Predicted effectiveness bucket.
+            #
+            # Effectiveness indicates which products would benefit most from price
+            # changes. This rating takes into consideration the performance boost
+            # predicted by adjusting the sale price and the difference between your
+            # current price and the suggested price. Price suggestions with `HIGH`
+            # effectiveness are predicted to drive the largest increase in performance.
+            module Effectiveness
+              # Effectiveness is unknown.
+              EFFECTIVENESS_UNSPECIFIED = 0
+
+              # Effectiveness is low.
+              LOW = 1
+
+              # Effectiveness is medium.
+              MEDIUM = 2
+
+              # Effectiveness is high.
+              HIGH = 3
+            end
           end
 
           # Fields available for query in `best_sellers_product_cluster_view` table.
@@ -732,16 +791,16 @@ module Google
           #     GTINs of example variants of the product cluster.
           # @!attribute [rw] inventory_status
           #   @return [::Google::Shopping::Merchant::Reports::V1beta::BestSellersProductClusterView::InventoryStatus]
-          #     Whether the product cluster is `IN_STOCK` in your product feed in at least
-          #     one of the countries, `OUT_OF_STOCK` in your product feed in all countries,
-          #     or `NOT_IN_INVENTORY` at all.
+          #     Whether the product cluster is `IN_STOCK` in your product data source in at
+          #     least one of the countries, `OUT_OF_STOCK` in your product data source in
+          #     all countries, or `NOT_IN_INVENTORY` at all.
           #
           #     The field doesn't take the Best sellers report country filter into account.
           # @!attribute [rw] brand_inventory_status
           #   @return [::Google::Shopping::Merchant::Reports::V1beta::BestSellersProductClusterView::InventoryStatus]
           #     Whether there is at least one product of the brand currently `IN_STOCK` in
-          #     your product feed in at least one of the countries, all products are
-          #     `OUT_OF_STOCK` in your product feed in all countries, or
+          #     your product data source in at least one of the countries, all products are
+          #     `OUT_OF_STOCK` in your product data source in all countries, or
           #     `NOT_IN_INVENTORY`.
           #
           #     The field doesn't take the Best sellers report country filter into account.
@@ -847,6 +906,45 @@ module Google
           #   @return [::Google::Shopping::Merchant::Reports::V1beta::RelativeDemandChangeType::RelativeDemandChangeTypeEnum]
           #     Change in the estimated demand. Whether it rose, sank or remained flat.
           class BestSellersBrandView
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
+
+          # Fields available for query in `non_product_performance_view` table.
+          #
+          # Performance data on images and online store links leading to your non-product
+          # pages. This includes performance metrics (for example, `clicks`)
+          # and dimensions according to which performance metrics are segmented (for
+          # example, `date`).
+          #
+          # Segment fields cannot be selected in queries without also selecting at least
+          # one metric field.
+          #
+          # Values are only set for fields requested explicitly in the request's search
+          # query.
+          # @!attribute [rw] date
+          #   @return [::Google::Type::Date]
+          #     Date in the merchant timezone to which metrics apply. Segment.
+          #
+          #     Condition on `date` is required in the `WHERE` clause.
+          # @!attribute [rw] week
+          #   @return [::Google::Type::Date]
+          #     First day of the week (Monday) of the metrics date in the merchant
+          #     timezone. Segment.
+          # @!attribute [rw] clicks
+          #   @return [::Integer]
+          #     Number of clicks on images and online store links leading to your
+          #     non-product pages. Metric.
+          # @!attribute [rw] impressions
+          #   @return [::Integer]
+          #     Number of times images and online store links leading to your non-product
+          #     pages were shown. Metric.
+          # @!attribute [rw] click_through_rate
+          #   @return [::Float]
+          #     Click-through rate - the number of clicks (`clicks`) divided by the number
+          #     of impressions (`impressions`) of images and online store links leading to
+          #     your non-product pages. Metric.
+          class NonProductPerformanceView
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
           end

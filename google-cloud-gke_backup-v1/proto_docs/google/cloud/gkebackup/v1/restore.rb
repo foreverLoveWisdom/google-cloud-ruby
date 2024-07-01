@@ -23,7 +23,6 @@ module Google
       module V1
         # Represents both a request to Restore some portion of a Backup into
         # a target GKE cluster and a record of the restore operation itself.
-        # Next id: 18
         # @!attribute [r] name
         #   @return [::String]
         #     Output only. The full name of the Restore resource.
@@ -101,9 +100,44 @@ module Google
         #     and systems are expected to put that etag in the request to
         #     `UpdateRestore` or `DeleteRestore` to ensure that their change will be
         #     applied to the same version of the resource.
+        # @!attribute [rw] filter
+        #   @return [::Google::Cloud::GkeBackup::V1::Restore::Filter]
+        #     Optional. Immutable. Filters resources for `Restore`. If not specified, the
+        #     scope of the restore will remain the same as defined in the `RestorePlan`.
+        #     If this is specified, and no resources are matched by the
+        #     `inclusion_filters` or everyting is excluded by the `exclusion_filters`,
+        #     nothing will be restored. This filter can only be specified if the value of
+        #     {::Google::Cloud::GkeBackup::V1::RestoreConfig#namespaced_resource_restore_mode namespaced_resource_restore_mode}
+        #     is set to `MERGE_SKIP_ON_CONFLICT`, `MERGE_REPLACE_VOLUME_ON_CONFLICT` or
+        #     `MERGE_REPLACE_ON_CONFLICT`.
+        # @!attribute [rw] volume_data_restore_policy_overrides
+        #   @return [::Array<::Google::Cloud::GkeBackup::V1::VolumeDataRestorePolicyOverride>]
+        #     Optional. Immutable. Overrides the volume data restore policies selected in
+        #     the Restore Config for override-scoped resources.
         class Restore
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
+
+          # Defines the filter for `Restore`. This filter can be used to further
+          # refine the resource selection of the `Restore` beyond the coarse-grained
+          # scope defined in the `RestorePlan`. `exclusion_filters` take precedence
+          # over `inclusion_filters`. If a resource matches both `inclusion_filters`
+          # and `exclusion_filters`, it will not be restored.
+          # @!attribute [rw] inclusion_filters
+          #   @return [::Array<::Google::Cloud::GkeBackup::V1::ResourceSelector>]
+          #     Optional. Selects resources for restoration. If specified, only resources
+          #     which match `inclusion_filters` will be selected for restoration. A
+          #     resource will be selected if it matches any `ResourceSelector` of the
+          #     `inclusion_filters`.
+          # @!attribute [rw] exclusion_filters
+          #   @return [::Array<::Google::Cloud::GkeBackup::V1::ResourceSelector>]
+          #     Optional. Excludes resources from restoration. If specified,
+          #     a resource will not be restored if it matches
+          #     any `ResourceSelector` of the `exclusion_filters`.
+          class Filter
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
 
           # @!attribute [rw] key
           #   @return [::String]
@@ -140,28 +174,29 @@ module Google
         end
 
         # Configuration of a restore.
-        # Next id: 12
         # @!attribute [rw] volume_data_restore_policy
         #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::VolumeDataRestorePolicy]
-        #     Specifies the mechanism to be used to restore volume data.
+        #     Optional. Specifies the mechanism to be used to restore volume data.
         #     Default: VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED (will be treated as
         #     NO_VOLUME_DATA_RESTORATION).
         # @!attribute [rw] cluster_resource_conflict_policy
         #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::ClusterResourceConflictPolicy]
-        #     Defines the behavior for handling the situation where cluster-scoped
-        #     resources being restored already exist in the target cluster. This MUST be
-        #     set to a value other than CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED if
+        #     Optional. Defines the behavior for handling the situation where
+        #     cluster-scoped resources being restored already exist in the target
+        #     cluster. This MUST be set to a value other than
+        #     CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED if
         #     {::Google::Cloud::GkeBackup::V1::RestoreConfig#cluster_resource_restore_scope cluster_resource_restore_scope}
         #     is not empty.
         # @!attribute [rw] namespaced_resource_restore_mode
         #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::NamespacedResourceRestoreMode]
-        #     Defines the behavior for handling the situation where sets of namespaced
-        #     resources being restored already exist in the target cluster. This MUST be
-        #     set to a value other than NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED.
+        #     Optional. Defines the behavior for handling the situation where sets of
+        #     namespaced resources being restored already exist in the target cluster.
+        #     This MUST be set to a value other than
+        #     NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED.
         # @!attribute [rw] cluster_resource_restore_scope
         #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::ClusterResourceRestoreScope]
-        #     Identifies the cluster-scoped resources to restore from the Backup.
-        #     Not specifying it means NO cluster resource will be restored.
+        #     Optional. Identifies the cluster-scoped resources to restore from the
+        #     Backup. Not specifying it means NO cluster resource will be restored.
         # @!attribute [rw] all_namespaces
         #   @return [::Boolean]
         #     Restore all namespaced resources in the Backup if set to "True".
@@ -185,18 +220,26 @@ module Google
         #     namespaces except those in this list will be restored.
         # @!attribute [rw] substitution_rules
         #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::SubstitutionRule>]
-        #     A list of transformation rules to be applied against Kubernetes resources
-        #     as they are selected for restoration from a Backup. Rules are executed in
-        #     order defined - this order matters, as changes made by a rule may impact
-        #     the filtering logic of subsequent rules. An empty list means no
+        #     Optional. A list of transformation rules to be applied against Kubernetes
+        #     resources as they are selected for restoration from a Backup. Rules are
+        #     executed in order defined - this order matters, as changes made by a rule
+        #     may impact the filtering logic of subsequent rules. An empty list means no
         #     substitution will occur.
         # @!attribute [rw] transformation_rules
         #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::TransformationRule>]
-        #     A list of transformation rules to be applied against Kubernetes resources
-        #     as they are selected for restoration from a Backup. Rules are executed in
-        #     order defined - this order matters, as changes made by a rule may impact
-        #     the filtering logic of subsequent rules. An empty list means no
+        #     Optional. A list of transformation rules to be applied against Kubernetes
+        #     resources as they are selected for restoration from a Backup. Rules are
+        #     executed in order defined - this order matters, as changes made by a rule
+        #     may impact the filtering logic of subsequent rules. An empty list means no
         #     transformation will occur.
+        # @!attribute [rw] volume_data_restore_policy_bindings
+        #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::VolumeDataRestorePolicyBinding>]
+        #     Optional. A table that binds volumes by their scope to a restore policy.
+        #     Bindings must have a unique scope. Any volumes not scoped in the bindings
+        #     are subject to the policy defined in volume_data_restore_policy.
+        # @!attribute [rw] restore_order
+        #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::RestoreOrder]
+        #     Optional. RestoreOrder contains custom ordering to use on a Restore.
         class RestoreConfig
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -206,13 +249,14 @@ module Google
           # and is used for identifying specific "types" of resources to restore.
           # @!attribute [rw] resource_group
           #   @return [::String]
-          #     API group string of a Kubernetes resource, e.g.
+          #     Optional. API group string of a Kubernetes resource, e.g.
           #     "apiextensions.k8s.io", "storage.k8s.io", etc.
           #     Note: use empty string for core API group
           # @!attribute [rw] resource_kind
           #   @return [::String]
-          #     Kind of a Kubernetes resource, e.g.
-          #     "CustomResourceDefinition", "StorageClass", etc.
+          #     Optional. Kind of a Kubernetes resource, must be in UpperCamelCase
+          #     (PascalCase) and singular form. E.g. "CustomResourceDefinition",
+          #     "StorageClass", etc.
           class GroupKind
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -238,22 +282,22 @@ module Google
           # - PersistentVolume
           # @!attribute [rw] selected_group_kinds
           #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind>]
-          #     A list of cluster-scoped resource group kinds to restore from the
-          #     backup. If specified, only the selected resources will be restored.
+          #     Optional. A list of cluster-scoped resource group kinds to restore from
+          #     the backup. If specified, only the selected resources will be restored.
           #     Mutually exclusive to any other field in the message.
           # @!attribute [rw] excluded_group_kinds
           #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind>]
-          #     A list of cluster-scoped resource group kinds to NOT restore from the
-          #     backup. If specified, all valid cluster-scoped resources will be
+          #     Optional. A list of cluster-scoped resource group kinds to NOT restore
+          #     from the backup. If specified, all valid cluster-scoped resources will be
           #     restored except for those specified in the list.
           #     Mutually exclusive to any other field in the message.
           # @!attribute [rw] all_group_kinds
           #   @return [::Boolean]
-          #     If True, all valid cluster-scoped resources will be restored.
+          #     Optional. If True, all valid cluster-scoped resources will be restored.
           #     Mutually exclusive to any other field in the message.
           # @!attribute [rw] no_group_kinds
           #   @return [::Boolean]
-          #     If True, no cluster-scoped resources will be restored.
+          #     Optional. If True, no cluster-scoped resources will be restored.
           #     This has the same restore scope as if the message is not defined.
           #     Mutually exclusive to any other field in the message.
           class ClusterResourceRestoreScope
@@ -266,8 +310,8 @@ module Google
           # logic (which resources are subject to substitution) and substitution logic.
           # @!attribute [rw] target_namespaces
           #   @return [::Array<::String>]
-          #     (Filtering parameter) Any resource subject to substitution must be
-          #     contained within one of the listed Kubernetes Namespace in the Backup.
+          #     Optional. (Filtering parameter) Any resource subject to substitution must
+          #     be contained within one of the listed Kubernetes Namespace in the Backup.
           #     If this field is not provided, no namespace filtering will be performed
           #     (all resources in all Namespaces, including all cluster-scoped resources,
           #     will be candidates for substitution).
@@ -275,11 +319,10 @@ module Google
           #     empty string ("") as one of the target namespaces.
           # @!attribute [rw] target_group_kinds
           #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind>]
-          #     (Filtering parameter) Any resource subject to substitution must belong to
-          #     one of the listed "types".
-          #     If this field is not provided, no type filtering will be performed (all
-          #     resources of all types matching previous filtering parameters will be
-          #     candidates for substitution).
+          #     Optional. (Filtering parameter) Any resource subject to substitution must
+          #     belong to one of the listed "types". If this field is not provided, no
+          #     type filtering will be performed (all resources of all types matching
+          #     previous filtering parameters will be candidates for substitution).
           # @!attribute [rw] target_json_path
           #   @return [::String]
           #     Required. This is a [JSONPath]
@@ -291,7 +334,7 @@ module Google
           #     fields out of the candidate resources will be modified).
           # @!attribute [rw] original_value_pattern
           #   @return [::String]
-          #     (Filtering parameter) This is a [regular expression]
+          #     Optional. (Filtering parameter) This is a [regular expression]
           #     (https://en.wikipedia.org/wiki/Regular_expression)
           #     that is compared against the fields matched by the target_json_path
           #     expression (and must also have passed the previous filters).
@@ -302,9 +345,10 @@ module Google
           #     value for this field will only match empty fields.
           # @!attribute [rw] new_value
           #   @return [::String]
-          #     This is the new value to set for any fields that pass the filtering and
-          #     selection criteria. To remove a value from a Kubernetes resource, either
-          #     leave this field unspecified, or set it to the empty string ("").
+          #     Optional. This is the new value to set for any fields that pass the
+          #     filtering and selection criteria. To remove a value from a Kubernetes
+          #     resource, either leave this field unspecified, or set it to the empty
+          #     string ("").
           class SubstitutionRule
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -317,15 +361,15 @@ module Google
           #     Required. op specifies the operation to perform.
           # @!attribute [rw] from_path
           #   @return [::String]
-          #     A string containing a JSON Pointer value that references the location in
-          #     the target document to move the value from.
+          #     Optional. A string containing a JSON Pointer value that references the
+          #     location in the target document to move the value from.
           # @!attribute [rw] path
           #   @return [::String]
-          #     A string containing a JSON-Pointer value that references a location
-          #     within the target document where the operation is performed.
+          #     Optional. A string containing a JSON-Pointer value that references a
+          #     location within the target document where the operation is performed.
           # @!attribute [rw] value
           #   @return [::String]
-          #     A string that specifies the desired value in string format to
+          #     Optional. A string that specifies the desired value in string format to
           #     use for transformation.
           class TransformationRuleAction
             include ::Google::Protobuf::MessageExts
@@ -373,22 +417,20 @@ module Google
           # restoration from a backup.
           # @!attribute [rw] namespaces
           #   @return [::Array<::String>]
-          #     (Filtering parameter) Any resource subject to transformation must be
-          #     contained within one of the listed Kubernetes Namespace in the Backup.
-          #     If this field is not provided, no namespace filtering will be performed
-          #     (all resources in all Namespaces, including all cluster-scoped resources,
-          #     will be candidates for transformation).
-          #     To mix cluster-scoped and namespaced resources in the same rule, use an
-          #     empty string ("") as one of the target namespaces.
+          #     Optional. (Filtering parameter) Any resource subject to transformation
+          #     must be contained within one of the listed Kubernetes Namespace in the
+          #     Backup. If this field is not provided, no namespace filtering will be
+          #     performed (all resources in all Namespaces, including all cluster-scoped
+          #     resources, will be candidates for transformation).
           # @!attribute [rw] group_kinds
           #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind>]
-          #     (Filtering parameter) Any resource subject to transformation must belong
-          #     to one of the listed "types". If this field is not provided, no type
-          #     filtering will be performed (all resources of all types matching previous
-          #     filtering parameters will be candidates for transformation).
+          #     Optional. (Filtering parameter) Any resource subject to transformation
+          #     must belong to one of the listed "types". If this field is not provided,
+          #     no type filtering will be performed (all resources of all types matching
+          #     previous filtering parameters will be candidates for transformation).
           # @!attribute [rw] json_path
           #   @return [::String]
-          #     This is a [JSONPath]
+          #     Optional. This is a [JSONPath]
           #     (https://github.com/json-path/JsonPath/blob/master/README.md)
           #     expression that matches specific fields of candidate
           #     resources and it operates as a filtering parameter (resources that
@@ -410,17 +452,57 @@ module Google
           #     could affect the outcome of the second operation.
           # @!attribute [rw] resource_filter
           #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::ResourceFilter]
-          #     This field is used to specify a set of fields that should be used to
-          #     determine which resources in backup should be acted upon by the supplied
-          #     transformation rule actions, and this will ensure that only specific
-          #     resources are affected by transformation rule actions.
+          #     Optional. This field is used to specify a set of fields that should be
+          #     used to determine which resources in backup should be acted upon by the
+          #     supplied transformation rule actions, and this will ensure that only
+          #     specific resources are affected by transformation rule actions.
           # @!attribute [rw] description
           #   @return [::String]
-          #     The description is a user specified string description of the
+          #     Optional. The description is a user specified string description of the
           #     transformation rule.
           class TransformationRule
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
+
+          # Binds resources in the scope to the given VolumeDataRestorePolicy.
+          # @!attribute [rw] policy
+          #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::VolumeDataRestorePolicy]
+          #     Required. The VolumeDataRestorePolicy to apply when restoring volumes in
+          #     scope.
+          # @!attribute [rw] volume_type
+          #   @return [::Google::Cloud::GkeBackup::V1::VolumeTypeEnum::VolumeType]
+          #     The volume type, as determined by the PVC's bound PV,
+          #     to apply the policy to.
+          class VolumeDataRestorePolicyBinding
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
+
+          # Allows customers to specify dependencies between resources
+          # that Backup for GKE can use to compute a resasonable restore order.
+          # @!attribute [rw] group_kind_dependencies
+          #   @return [::Array<::Google::Cloud::GkeBackup::V1::RestoreConfig::RestoreOrder::GroupKindDependency>]
+          #     Optional. Contains a list of group kind dependency pairs provided
+          #     by the customer, that is used by Backup for GKE to
+          #     generate a group kind restore order.
+          class RestoreOrder
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+
+            # Defines a dependency between two group kinds.
+            # @!attribute [rw] satisfying
+            #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind]
+            #     Required. The satisfying group kind must be restored first
+            #     in order to satisfy the dependency.
+            # @!attribute [rw] requiring
+            #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind]
+            #     Required. The requiring group kind requires that the other
+            #     group kind be restored first.
+            class GroupKindDependency
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
           end
 
           # Defines how volume data should be restored.
@@ -482,7 +564,97 @@ module Google
             # occurs during the restore process itself (e.g., because an out of band
             # process creates conflicting resources), a conflict will be reported.
             FAIL_ON_CONFLICT = 2
+
+            # This mode merges the backup and the target cluster and skips the
+            # conflicting resources. If a single resource to restore exists in the
+            # cluster before restoration, the resource will be skipped, otherwise it
+            # will be restored.
+            MERGE_SKIP_ON_CONFLICT = 3
+
+            # This mode merges the backup and the target cluster and skips the
+            # conflicting resources except volume data. If a PVC to restore already
+            # exists, this mode will restore/reconnect the volume without overwriting
+            # the PVC. It is similar to MERGE_SKIP_ON_CONFLICT except that it will
+            # apply the volume data policy for the conflicting PVCs:
+            # - RESTORE_VOLUME_DATA_FROM_BACKUP: restore data only and respect the
+            #   reclaim policy of the original PV;
+            # - REUSE_VOLUME_HANDLE_FROM_BACKUP: reconnect and respect the reclaim
+            #   policy of the original PV;
+            # - NO_VOLUME_DATA_RESTORATION: new provision and respect the reclaim
+            #   policy of the original PV.
+            # Note that this mode could cause data loss as the original PV can be
+            # retained or deleted depending on its reclaim policy.
+            MERGE_REPLACE_VOLUME_ON_CONFLICT = 4
+
+            # This mode merges the backup and the target cluster and replaces the
+            # conflicting resources with the ones in the backup. If a single resource
+            # to restore exists in the cluster before restoration, the resource will be
+            # replaced with the one from the backup. To replace an existing resource,
+            # the first attempt is to update the resource to match the one from the
+            # backup; if the update fails, the second attempt is to delete the resource
+            # and restore it from the backup.
+            # Note that this mode could cause data loss as it replaces the existing
+            # resources in the target cluster, and the original PV can be retained or
+            # deleted depending on its reclaim policy.
+            MERGE_REPLACE_ON_CONFLICT = 5
           end
+        end
+
+        # Defines a selector to identify a single or a group of resources.
+        # Conditions in the selector are optional, but at least one field
+        # should be set to a non-empty value. If a condition is not specified,
+        # no restrictions will be applied on that dimension.
+        # If more than one condition is specified, a resource will be selected
+        # if and only if all conditions are met.
+        # @!attribute [rw] group_kind
+        #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::GroupKind]
+        #     Optional. Selects resources using their Kubernetes GroupKinds. If
+        #     specified, only resources of provided GroupKind will be selected.
+        # @!attribute [rw] name
+        #   @return [::String]
+        #     Optional. Selects resources using their resource names. If specified,
+        #     only resources with the provided name will be selected.
+        # @!attribute [rw] namespace
+        #   @return [::String]
+        #     Optional. Selects resources using their namespaces. This only applies to
+        #     namespace scoped resources and cannot be used for selecting
+        #     cluster scoped resources. If specified, only resources in the provided
+        #     namespace will be selected. If not specified, the filter will apply to
+        #     both cluster scoped and namespace scoped resources (e.g. name or label).
+        #     The [Namespace](https://pkg.go.dev/k8s.io/api/core/v1#Namespace) resource
+        #     itself will be restored if and only if any resources within the namespace
+        #     are restored.
+        # @!attribute [rw] labels
+        #   @return [::Google::Protobuf::Map{::String => ::String}]
+        #     Optional. Selects resources using Kubernetes
+        #     [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/).
+        #     If specified, a resource will be selected if and only if the resource
+        #     has all of the provided labels and all the label values match.
+        class ResourceSelector
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+
+          # @!attribute [rw] key
+          #   @return [::String]
+          # @!attribute [rw] value
+          #   @return [::String]
+          class LabelsEntry
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
+        end
+
+        # Defines an override to apply a VolumeDataRestorePolicy for scoped resources.
+        # @!attribute [rw] policy
+        #   @return [::Google::Cloud::GkeBackup::V1::RestoreConfig::VolumeDataRestorePolicy]
+        #     Required. The VolumeDataRestorePolicy to apply when restoring volumes in
+        #     scope.
+        # @!attribute [rw] selected_pvcs
+        #   @return [::Google::Cloud::GkeBackup::V1::NamespacedNames]
+        #     A list of PVCs to apply the policy override to.
+        class VolumeDataRestorePolicyOverride
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
         end
       end
     end

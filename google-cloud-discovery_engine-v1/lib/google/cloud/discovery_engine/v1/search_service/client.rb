@@ -32,6 +32,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "discoveryengine.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -68,9 +71,9 @@ module Google
                                 end
                 default_config = Client::Configuration.new parent_config
 
-                default_config.timeout = 5.0
+                default_config.timeout = 30.0
                 default_config.retry_policy = {
-                  initial_delay: 0.1, max_delay: 5.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 1.0, max_delay: 10.0, multiplier: 1.3, retry_codes: [14]
                 }
 
                 default_config
@@ -193,7 +196,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload search(serving_config: nil, branch: nil, query: nil, image_query: nil, page_size: nil, page_token: nil, offset: nil, filter: nil, canonical_filter: nil, order_by: nil, user_info: nil, facet_specs: nil, boost_spec: nil, params: nil, query_expansion_spec: nil, spell_correction_spec: nil, user_pseudo_id: nil, content_search_spec: nil, safe_search: nil, user_labels: nil)
+            # @overload search(serving_config: nil, branch: nil, query: nil, image_query: nil, page_size: nil, page_token: nil, offset: nil, data_store_specs: nil, filter: nil, canonical_filter: nil, order_by: nil, user_info: nil, facet_specs: nil, boost_spec: nil, params: nil, query_expansion_spec: nil, spell_correction_spec: nil, user_pseudo_id: nil, content_search_spec: nil, safe_search: nil, user_labels: nil)
             #   Pass arguments to `search` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -217,10 +220,14 @@ module Google
             #     Raw image query.
             #   @param page_size [::Integer]
             #     Maximum number of {::Google::Cloud::DiscoveryEngine::V1::Document Document}s to
-            #     return. If unspecified, defaults to a reasonable value. The maximum allowed
-            #     value is 100. Values above 100 are coerced to 100.
+            #     return. The maximum allowed value depends on the data type. Values above
+            #     the maximum value are coerced to the maximum value.
             #
-            #     If this field is negative, an  `INVALID_ARGUMENT`  is returned.
+            #     * Websites with basic indexing: Default `10`, Maximum `25`.
+            #     * Websites with advanced indexing: Default `25`, Maximum `50`.
+            #     * Other: Default `50`, Maximum `100`.
+            #
+            #     If this field is negative, an  `INVALID_ARGUMENT` is returned.
             #   @param page_token [::String]
             #     A page token received from a previous
             #     {::Google::Cloud::DiscoveryEngine::V1::SearchService::Client#search SearchService.Search}
@@ -239,6 +246,11 @@ module Google
             #     unset.
             #
             #     If this field is negative, an  `INVALID_ARGUMENT`  is returned.
+            #   @param data_store_specs [::Array<::Google::Cloud::DiscoveryEngine::V1::SearchRequest::DataStoreSpec, ::Hash>]
+            #     Specs defining dataStores to filter on in a search call and configurations
+            #     for those dataStores. This is only considered for engines with multiple
+            #     dataStores use case. For single dataStore within an engine, they should
+            #     use the specs at the top level.
             #   @param filter [::String]
             #     The filter syntax consists of an expression language for constructing a
             #     predicate from one or more fields of the documents being filtered. Filter
@@ -272,7 +284,9 @@ module Google
             #     The order in which documents are returned. Documents can be ordered by
             #     a field in an {::Google::Cloud::DiscoveryEngine::V1::Document Document} object.
             #     Leave it unset if ordered by relevance. `order_by` expression is
-            #     case-sensitive. For more information on ordering, see
+            #     case-sensitive.
+            #
+            #     For more information on ordering for retail search, see
             #     [Ordering](https://cloud.google.com/retail/docs/filter-and-order#order)
             #
             #     If this field is unrecognizable, an `INVALID_ARGUMENT` is returned.
@@ -289,7 +303,7 @@ module Google
             #   @param boost_spec [::Google::Cloud::DiscoveryEngine::V1::SearchRequest::BoostSpec, ::Hash]
             #     Boost specification to boost certain documents.
             #     For more information on boosting, see
-            #     [Boosting](https://cloud.google.com/retail/docs/boosting#boost)
+            #     [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results)
             #   @param params [::Hash{::String => ::Google::Protobuf::Value, ::Hash}]
             #     Additional search parameters.
             #
@@ -297,8 +311,7 @@ module Google
             #
             #     * `user_country_code`: string. Default empty. If set to non-empty, results
             #        are restricted or boosted based on the location provided.
-            #        Example:
-            #        user_country_code: "au"
+            #        For example, `user_country_code: "au"`
             #
             #        For available codes see [Country
             #        Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes)
@@ -306,8 +319,7 @@ module Google
             #     * `search_type`: double. Default empty. Enables non-webpage searching
             #        depending on the value. The only valid non-default value is 1,
             #        which enables image searching.
-            #        Example:
-            #        search_type: 1
+            #        For example, `search_type: 1`
             #   @param query_expansion_spec [::Google::Cloud::DiscoveryEngine::V1::SearchRequest::QueryExpansionSpec, ::Hash]
             #     The query expansion specification that specifies the conditions under which
             #     query expansion occurs.
@@ -391,10 +403,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.search.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::DiscoveryEngine::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

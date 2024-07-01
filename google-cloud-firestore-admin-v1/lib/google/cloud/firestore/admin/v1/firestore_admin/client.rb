@@ -60,6 +60,9 @@ module Google
             #
             class Client
               # @private
+              API_VERSION = ""
+
+              # @private
               DEFAULT_ENDPOINT_TEMPLATE = "firestore.$UNIVERSE_DOMAIN$"
 
               include Paths
@@ -128,6 +131,8 @@ module Google
                   default_config.rpcs.export_documents.timeout = 60.0
 
                   default_config.rpcs.import_documents.timeout = 60.0
+
+                  default_config.rpcs.bulk_delete_documents.timeout = 60.0
 
                   default_config
                 end
@@ -319,10 +324,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.create_index.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -418,10 +424,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.list_indexes.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -505,10 +512,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.get_index.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -591,10 +599,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.delete_index.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -677,10 +686,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.get_field.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -787,10 +797,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.update_field.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -853,7 +864,8 @@ module Google
               #     only supports listing fields that have been explicitly overridden. To issue
               #     this query, call
               #     {::Google::Cloud::Firestore::Admin::V1::FirestoreAdmin::Client#list_fields FirestoreAdmin.ListFields}
-              #     with a filter that includes `indexConfig.usesAncestorConfig:false` .
+              #     with a filter that includes `indexConfig.usesAncestorConfig:false` or
+              #     `ttlConfig:*`.
               #   @param page_size [::Integer]
               #     The number of results to return.
               #   @param page_token [::String]
@@ -899,10 +911,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.list_fields.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -962,7 +975,8 @@ module Google
               #     Required. Database to export. Should be of the form:
               #     `projects/{project_id}/databases/{database_id}`.
               #   @param collection_ids [::Array<::String>]
-              #     Which collection ids to export. Unspecified means all collections.
+              #     Which collection ids to export. Unspecified means all collections. Each
+              #     collection id in this list must be unique.
               #   @param output_uri_prefix [::String]
               #     The output URI. Currently only supports Google Cloud Storage URIs of the
               #     form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name
@@ -1029,10 +1043,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.export_documents.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1087,7 +1102,7 @@ module Google
               #     `projects/{project_id}/databases/{database_id}`.
               #   @param collection_ids [::Array<::String>]
               #     Which collection ids to import. Unspecified means all collections included
-              #     in the import.
+              #     in the import. Each collection id in this list must be unique.
               #   @param input_uri_prefix [::String]
               #     Location of the exported files.
               #     This must match the output_uri_prefix of an ExportDocumentsResponse from
@@ -1143,10 +1158,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.import_documents.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1166,6 +1182,124 @@ module Google
                                        retry_policy: @config.retry_policy
 
                 @firestore_admin_stub.call_rpc :import_documents, request, options: options do |response, operation|
+                  response = ::Gapic::Operation.new response, @operations_client, options: options
+                  yield response, operation if block_given?
+                  return response
+                end
+              rescue ::GRPC::BadStatus => e
+                raise ::Google::Cloud::Error.from_error(e)
+              end
+
+              ##
+              # Bulk deletes a subset of documents from Google Cloud Firestore.
+              # Documents created or updated after the underlying system starts to process
+              # the request will not be deleted. The bulk delete occurs in the background
+              # and its progress can be monitored and managed via the Operation resource
+              # that is created.
+              #
+              # For more details on bulk delete behavior, refer to:
+              # https://cloud.google.com/firestore/docs/manage-data/bulk-delete
+              #
+              # @overload bulk_delete_documents(request, options = nil)
+              #   Pass arguments to `bulk_delete_documents` via a request object, either of type
+              #   {::Google::Cloud::Firestore::Admin::V1::BulkDeleteDocumentsRequest} or an equivalent Hash.
+              #
+              #   @param request [::Google::Cloud::Firestore::Admin::V1::BulkDeleteDocumentsRequest, ::Hash]
+              #     A request object representing the call parameters. Required. To specify no
+              #     parameters, or to keep all the default parameter values, pass an empty Hash.
+              #   @param options [::Gapic::CallOptions, ::Hash]
+              #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
+              #
+              # @overload bulk_delete_documents(name: nil, collection_ids: nil, namespace_ids: nil)
+              #   Pass arguments to `bulk_delete_documents` via keyword arguments. Note that at
+              #   least one keyword argument is required. To specify no parameters, or to keep all
+              #   the default parameter values, pass an empty Hash as a request object (see above).
+              #
+              #   @param name [::String]
+              #     Required. Database to operate. Should be of the form:
+              #     `projects/{project_id}/databases/{database_id}`.
+              #   @param collection_ids [::Array<::String>]
+              #     Optional. IDs of the collection groups to delete. Unspecified means all
+              #     collection groups.
+              #
+              #     Each collection group in this list must be unique.
+              #   @param namespace_ids [::Array<::String>]
+              #     Optional. Namespaces to delete.
+              #
+              #     An empty list means all namespaces. This is the recommended
+              #     usage for databases that don't use namespaces.
+              #
+              #     An empty string element represents the default namespace. This should be
+              #     used if the database has data in non-default namespaces, but doesn't want
+              #     to delete from them.
+              #
+              #     Each namespace in this list must be unique.
+              #
+              # @yield [response, operation] Access the result along with the RPC operation
+              # @yieldparam response [::Gapic::Operation]
+              # @yieldparam operation [::GRPC::ActiveCall::Operation]
+              #
+              # @return [::Gapic::Operation]
+              #
+              # @raise [::Google::Cloud::Error] if the RPC is aborted.
+              #
+              # @example Basic example
+              #   require "google/cloud/firestore/admin/v1"
+              #
+              #   # Create a client object. The client can be reused for multiple calls.
+              #   client = Google::Cloud::Firestore::Admin::V1::FirestoreAdmin::Client.new
+              #
+              #   # Create a request. To set request fields, pass in keyword arguments.
+              #   request = Google::Cloud::Firestore::Admin::V1::BulkDeleteDocumentsRequest.new
+              #
+              #   # Call the bulk_delete_documents method.
+              #   result = client.bulk_delete_documents request
+              #
+              #   # The returned object is of type Gapic::Operation. You can use it to
+              #   # check the status of an operation, cancel it, or wait for results.
+              #   # Here is how to wait for a response.
+              #   result.wait_until_done! timeout: 60
+              #   if result.response?
+              #     p result.response
+              #   else
+              #     puts "No response received."
+              #   end
+              #
+              def bulk_delete_documents request, options = nil
+                raise ::ArgumentError, "request must be provided" if request.nil?
+
+                request = ::Gapic::Protobuf.coerce request, to: ::Google::Cloud::Firestore::Admin::V1::BulkDeleteDocumentsRequest
+
+                # Converts hash and nil to an options object
+                options = ::Gapic::CallOptions.new(**options.to_h) if options.respond_to? :to_h
+
+                # Customize the options with defaults
+                metadata = @config.rpcs.bulk_delete_documents.metadata.to_h
+
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
+                metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
+                  lib_name: @config.lib_name, lib_version: @config.lib_version,
+                  gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
+                metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
+
+                header_params = {}
+                if request.name
+                  header_params["name"] = request.name
+                end
+
+                request_params_header = header_params.map { |k, v| "#{k}=#{v}" }.join("&")
+                metadata[:"x-goog-request-params"] ||= request_params_header
+
+                options.apply_defaults timeout:      @config.rpcs.bulk_delete_documents.timeout,
+                                       metadata:     metadata,
+                                       retry_policy: @config.rpcs.bulk_delete_documents.retry_policy
+
+                options.apply_defaults timeout:      @config.timeout,
+                                       metadata:     @config.metadata,
+                                       retry_policy: @config.retry_policy
+
+                @firestore_admin_stub.call_rpc :bulk_delete_documents, request, options: options do |response, operation|
                   response = ::Gapic::Operation.new response, @operations_client, options: options
                   yield response, operation if block_given?
                   return response
@@ -1248,10 +1382,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.create_database.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1335,10 +1470,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.get_database.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1378,7 +1514,7 @@ module Google
               #   @param options [::Gapic::CallOptions, ::Hash]
               #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
               #
-              # @overload list_databases(parent: nil)
+              # @overload list_databases(parent: nil, show_deleted: nil)
               #   Pass arguments to `list_databases` via keyword arguments. Note that at
               #   least one keyword argument is required. To specify no parameters, or to keep all
               #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -1386,6 +1522,8 @@ module Google
               #   @param parent [::String]
               #     Required. A parent name of the form
               #     `projects/{project_id}`
+              #   @param show_deleted [::Boolean]
+              #     If true, also returns deleted resources.
               #
               # @yield [response, operation] Access the result along with the RPC operation
               # @yieldparam response [::Google::Cloud::Firestore::Admin::V1::ListDatabasesResponse]
@@ -1421,10 +1559,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.list_databases.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1515,10 +1654,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.update_database.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1613,10 +1753,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.delete_database.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1701,10 +1842,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.get_backup.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1791,10 +1933,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.list_backups.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1878,10 +2021,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.delete_backup.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -1913,7 +2057,7 @@ module Google
               #
               # The new database must be in the same cloud region or multi-region location
               # as the existing backup. This behaves similar to
-              # [FirestoreAdmin.CreateDatabase][google.firestore.admin.v1.CreateDatabase]
+              # {::Google::Cloud::Firestore::Admin::V1::FirestoreAdmin::Client#create_database FirestoreAdmin.CreateDatabase}
               # except instead of creating a new empty database, a new database is created
               # with the database type, index configuration, and documents from an existing
               # backup.
@@ -2002,10 +2146,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.restore_database.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2036,8 +2181,7 @@ module Google
               ##
               # Creates a backup schedule on a database.
               # At most two backup schedules can be configured on a database, one daily
-              # backup schedule with retention up to 7 days and one weekly backup schedule
-              # with retention up to 14 weeks.
+              # backup schedule and one weekly backup schedule.
               #
               # @overload create_backup_schedule(request, options = nil)
               #   Pass arguments to `create_backup_schedule` via a request object, either of type
@@ -2095,10 +2239,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.create_backup_schedule.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2183,10 +2328,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.get_backup_schedule.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2270,10 +2416,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.list_backup_schedules.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2357,10 +2504,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.update_backup_schedule.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2445,10 +2593,11 @@ module Google
                 # Customize the options with defaults
                 metadata = @config.rpcs.delete_backup_schedule.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::Firestore::Admin::V1::VERSION
+                metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 header_params = {}
@@ -2674,6 +2823,11 @@ module Google
                   #
                   attr_reader :import_documents
                   ##
+                  # RPC-specific configuration for `bulk_delete_documents`
+                  # @return [::Gapic::Config::Method]
+                  #
+                  attr_reader :bulk_delete_documents
+                  ##
                   # RPC-specific configuration for `create_database`
                   # @return [::Gapic::Config::Method]
                   #
@@ -2764,6 +2918,8 @@ module Google
                     @export_documents = ::Gapic::Config::Method.new export_documents_config
                     import_documents_config = parent_rpcs.import_documents if parent_rpcs.respond_to? :import_documents
                     @import_documents = ::Gapic::Config::Method.new import_documents_config
+                    bulk_delete_documents_config = parent_rpcs.bulk_delete_documents if parent_rpcs.respond_to? :bulk_delete_documents
+                    @bulk_delete_documents = ::Gapic::Config::Method.new bulk_delete_documents_config
                     create_database_config = parent_rpcs.create_database if parent_rpcs.respond_to? :create_database
                     @create_database = ::Gapic::Config::Method.new create_database_config
                     get_database_config = parent_rpcs.get_database if parent_rpcs.respond_to? :get_database

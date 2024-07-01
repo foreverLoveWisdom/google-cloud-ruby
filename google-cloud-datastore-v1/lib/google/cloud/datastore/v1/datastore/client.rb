@@ -36,6 +36,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "datastore.$UNIVERSE_DOMAIN$"
 
             # @private
@@ -204,7 +207,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload lookup(project_id: nil, database_id: nil, read_options: nil, keys: nil)
+            # @overload lookup(project_id: nil, database_id: nil, read_options: nil, keys: nil, property_mask: nil)
             #   Pass arguments to `lookup` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -220,6 +223,13 @@ module Google
             #     The options for this lookup request.
             #   @param keys [::Array<::Google::Cloud::Datastore::V1::Key, ::Hash>]
             #     Required. Keys of entities to look up.
+            #   @param property_mask [::Google::Cloud::Datastore::V1::PropertyMask, ::Hash]
+            #     The properties to return. Defaults to returning all properties.
+            #
+            #     If this field is set and an entity has a property not referenced in the
+            #     mask, it will be absent from [LookupResponse.found.entity.properties][].
+            #
+            #     The entity's key is always returned.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Google::Cloud::Datastore::V1::LookupResponse]
@@ -255,10 +265,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.lookup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -301,7 +312,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload run_query(project_id: nil, database_id: nil, partition_id: nil, read_options: nil, query: nil, gql_query: nil, explain_options: nil)
+            # @overload run_query(project_id: nil, database_id: nil, partition_id: nil, read_options: nil, query: nil, gql_query: nil, property_mask: nil, explain_options: nil)
             #   Pass arguments to `run_query` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -324,6 +335,12 @@ module Google
             #     The query to run.
             #   @param gql_query [::Google::Cloud::Datastore::V1::GqlQuery, ::Hash]
             #     The GQL query to run. This query must be a non-aggregation query.
+            #   @param property_mask [::Google::Cloud::Datastore::V1::PropertyMask, ::Hash]
+            #     The properties to return.
+            #     This field must not be set for a projection query.
+            #
+            #     See
+            #     {::Google::Cloud::Datastore::V1::LookupRequest#property_mask LookupRequest.property_mask}.
             #   @param explain_options [::Google::Cloud::Datastore::V1::ExplainOptions, ::Hash]
             #     Optional. Explain options for the query. If set, additional query
             #     statistics will be returned. If not, only query results will be returned.
@@ -362,10 +379,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.run_query.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -469,10 +487,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.run_aggregation_query.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -564,10 +583,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.begin_transaction.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -683,10 +703,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.commit.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -779,10 +800,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.rollback.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -876,10 +898,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.allocate_ids.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -973,10 +996,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.reserve_ids.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Datastore::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

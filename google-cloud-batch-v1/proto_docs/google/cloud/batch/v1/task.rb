@@ -99,8 +99,17 @@ module Google
         # task execution procedures, based on StatusEvent types.
         # @!attribute [rw] exit_code
         #   @return [::Integer]
-        #     When task is completed as the status of FAILED or SUCCEEDED,
-        #     exit code is for one task execution result, default is 0 as success.
+        #     The exit code of a finished task.
+        #
+        #     If the task succeeded, the exit code will be 0. If the task failed but not
+        #     due to the following reasons, the exit code will be 50000.
+        #
+        #     Otherwise, it can be from different sources:
+        #     * Batch known failures:
+        #     https://cloud.google.com/batch/docs/troubleshooting#reserved-exit-codes.
+        #     * Batch runnable execution failures; you can rely on Batch logs to further
+        #     diagnose: https://cloud.google.com/batch/docs/analyze-job-using-logs. If
+        #     there are multiple runnables failures, Batch only exposes the first error.
         class TaskExecution
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -350,10 +359,15 @@ module Google
         #     ComputeResource requirements.
         # @!attribute [rw] max_run_duration
         #   @return [::Google::Protobuf::Duration]
-        #     Maximum duration the task should run.
-        #     The task will be killed and marked as FAILED if over this limit.
-        #     The valid value range for max_run_duration in seconds is [0,
-        #     315576000000.999999999],
+        #     Maximum duration the task should run before being automatically retried
+        #     (if enabled) or automatically failed. Format the value of this field
+        #     as a time limit in seconds followed by `s`&mdash;for example, `3600s`
+        #     for 1 hour. The field accepts any value between 0 and the maximum listed
+        #     for the `Duration` field type at
+        #     https://protobuf.dev/reference/protobuf/google.protobuf/#duration; however,
+        #     the actual maximum run time for a job will be limited to the maximum run
+        #     time for a job listed at
+        #     https://cloud.google.com/batch/quotas#max-job-duration.
         # @!attribute [rw] max_retry_count
         #   @return [::Integer]
         #     Maximum number of retries on failures.

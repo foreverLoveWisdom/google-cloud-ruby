@@ -472,6 +472,11 @@ module Google
         #     For single-turn queries, this is a single instance. For multi-turn queries,
         #     this is a repeated field that contains conversation history + latest
         #     request.
+        # @!attribute [rw] system_instruction
+        #   @return [::Google::Cloud::AIPlatform::V1::Content]
+        #     Optional. The user provided system instructions for the model.
+        #     Note: only text should be used in parts and content in each part will be in
+        #     a separate paragraph.
         # @!attribute [rw] tools
         #   @return [::Array<::Google::Cloud::AIPlatform::V1::Tool>]
         #     Optional. A list of `Tools` the model may use to generate the next
@@ -480,6 +485,10 @@ module Google
         #     A `Tool` is a piece of code that enables the system to interact with
         #     external systems to perform an action, or set of actions, outside of
         #     knowledge and scope of the model.
+        # @!attribute [rw] tool_config
+        #   @return [::Google::Cloud::AIPlatform::V1::ToolConfig]
+        #     Optional. Tool config. This config is shared for all tools provided in the
+        #     request.
         # @!attribute [rw] safety_settings
         #   @return [::Array<::Google::Cloud::AIPlatform::V1::SafetySetting>]
         #     Optional. Per request settings for blocking unsafe content.
@@ -532,6 +541,13 @@ module Google
 
               # Candidates blocked due to other reason.
               OTHER = 2
+
+              # Candidates blocked due to the terms which are included from the
+              # terminology blocklist.
+              BLOCKLIST = 3
+
+              # Candidates blocked due to prohibited content.
+              PROHIBITED_CONTENT = 4
             end
           end
 

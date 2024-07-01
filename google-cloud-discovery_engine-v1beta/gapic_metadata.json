@@ -29,6 +29,40 @@
         }
       }
     },
+    "ControlService": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "::Google::Cloud::DiscoveryEngine::V1beta::ControlService::Client",
+          "rpcs": {
+            "CreateControl": {
+              "methods": [
+                "create_control"
+              ]
+            },
+            "DeleteControl": {
+              "methods": [
+                "delete_control"
+              ]
+            },
+            "UpdateControl": {
+              "methods": [
+                "update_control"
+              ]
+            },
+            "GetControl": {
+              "methods": [
+                "get_control"
+              ]
+            },
+            "ListControls": {
+              "methods": [
+                "list_controls"
+              ]
+            }
+          }
+        }
+      }
+    },
     "SearchService": {
       "clients": {
         "grpc": {
@@ -76,6 +110,41 @@
             "ListConversations": {
               "methods": [
                 "list_conversations"
+              ]
+            },
+            "AnswerQuery": {
+              "methods": [
+                "answer_query"
+              ]
+            },
+            "GetAnswer": {
+              "methods": [
+                "get_answer"
+              ]
+            },
+            "CreateSession": {
+              "methods": [
+                "create_session"
+              ]
+            },
+            "DeleteSession": {
+              "methods": [
+                "delete_session"
+              ]
+            },
+            "UpdateSession": {
+              "methods": [
+                "update_session"
+              ]
+            },
+            "GetSession": {
+              "methods": [
+                "get_session"
+              ]
+            },
+            "ListSessions": {
+              "methods": [
+                "list_sessions"
               ]
             }
           }
@@ -189,6 +258,63 @@
               "methods": [
                 "list_engines"
               ]
+            },
+            "PauseEngine": {
+              "methods": [
+                "pause_engine"
+              ]
+            },
+            "ResumeEngine": {
+              "methods": [
+                "resume_engine"
+              ]
+            },
+            "TuneEngine": {
+              "methods": [
+                "tune_engine"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GroundedGenerationService": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "::Google::Cloud::DiscoveryEngine::V1beta::GroundedGenerationService::Client",
+          "rpcs": {
+            "CheckGrounding": {
+              "methods": [
+                "check_grounding"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ProjectService": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "::Google::Cloud::DiscoveryEngine::V1beta::ProjectService::Client",
+          "rpcs": {
+            "ProvisionProject": {
+              "methods": [
+                "provision_project"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "RankService": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "::Google::Cloud::DiscoveryEngine::V1beta::RankService::Client",
+          "rpcs": {
+            "Rank": {
+              "methods": [
+                "rank"
+              ]
             }
           }
         }
@@ -250,6 +376,11 @@
             "TrainCustomModel": {
               "methods": [
                 "train_custom_model"
+              ]
+            },
+            "ListCustomModels": {
+              "methods": [
+                "list_custom_models"
               ]
             }
           }

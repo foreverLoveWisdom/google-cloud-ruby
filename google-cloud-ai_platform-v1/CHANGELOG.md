@@ -1,5 +1,73 @@
 # Changelog
 
+### 0.42.0 (2024-06-25)
+
+#### Features
+
+* Add encryption_spec to TuningJob 
+* Add MALFORMED_FUNCTION_CALL to FinishReason ([#26140](https://github.com/googleapis/google-cloud-ruby/issues/26140)) 
+* Add preflight_validations to PipelineJob 
+
+### 0.41.0 (2024-05-31)
+
+### ⚠ BREAKING CHANGES
+
+* An existing message `Segment` is removed
+* An existing message `GroundingAttribution` is removed
+* An existing field `grounding_attributions` is removed from message `.google.cloud.aiplatform.v1beta1.GroundingMetadata`
+* An existing field `disable_attribution` is removed from message `.google.cloud.aiplatform.v1beta1.GoogleSearchRetrieval`
+
+#### Features
+
+* add dataplex_config to MetadataStore 
+* add direct_notebook_source to NotebookExecutionJob 
+* add encryption_spec to FeatureOnlineStore 
+* add encryption_spec to NotebookRuntimeTemplate 
+* add encryption_spec, service_account, disable_container_logging to DeploymentResourcePool 
+* add idle_shutdown_config, encryption_spec, satisfies_pzs, satisfies_pzi to NotebookRuntime 
+* add INVALID_SPARSE_DIMENSIONS, INVALID_SPARSE_EMBEDDING, INVALID_EMBEDDING to NearestNeighborSearchOperationMetadata.RecordError 
+* add model_reference to Dataset 
+* add model_reference to DatasetVersion 
+* add more fields in FindNeighborsRequest.Query 
+* add RaySpec to PersistentResource 
+* add sparse_distance to FindNeighborsResponse.Neighbor 
+* add sparse_embedding to IndexDatapoint 
+* add sparse_vectors_count to IndexStats 
+* add struct_value to FeatureValue 
+* add tool_config to GenerateContentRequest 
+* add UpdateNotebookRuntimeTemplate to NotebookService 
+* add valid_sparse_record_count, invalid_sparse_record_count to NearestNeighborSearchOperationMetadata.ContentValidationStats 
+* add ValueType.STRUCT to Feature ([#25997](https://github.com/googleapis/google-cloud-ruby/issues/25997)) 
+#### Bug Fixes
+
+* An existing field `disable_attribution` is removed from message `.google.cloud.aiplatform.v1beta1.GoogleSearchRetrieval` 
+* An existing field `grounding_attributions` is removed from message `.google.cloud.aiplatform.v1beta1.GroundingMetadata` 
+* An existing message `GroundingAttribution` is removed 
+* An existing message `Segment` is removed 
+#### Documentation
+
+* A comment for enum value `EMBEDDING_SIZE_MISMATCH` in enum `RecordErrorType` is changed 
+* A comment for field `exec` in message `.google.cloud.aiplatform.v1beta1.Probe` is changed 
+* A comment for field `feature_vector` in message `.google.cloud.aiplatform.v1beta1.IndexDatapoint` is changed 
+* A comment for field `vectors_count` in message `.google.cloud.aiplatform.v1beta1.IndexStats` is changed 
+
+### 0.40.0 (2024-05-23)
+
+#### Features
+
+* Add REST transport clients for all calls ([#25829](https://github.com/googleapis/google-cloud-ruby/issues/25829)) 
+* Added follow-up Google search entry point to GroundingMetadata 
+* Added private service connect configuration to Endpoint 
+* Added the TPU_V5_LITEPOD accelerator type 
+* Support for deploy task name in model metadata 
+* Support for the INVALID_TOKEN_VALUE record error 
+
+### 0.39.0 (2024-04-18)
+
+#### Features
+
+* GenAiTuningService aiplatform v1 initial release ([#25431](https://github.com/googleapis/google-cloud-ruby/issues/25431)) 
+
 ### 0.38.0 (2024-03-18)
 
 #### Features

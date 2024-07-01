@@ -1,5 +1,24 @@
 # Changelog
 
+### 0.18.0 (2024-06-26)
+
+#### Features
+
+* Add install_ops_agent field to InstancePolicyOrTemplate for Ops Agent support ([#26180](https://github.com/googleapis/google-cloud-ruby/issues/26180)) 
+
+### 0.17.4 (2024-06-05)
+
+#### Documentation
+
+* Minor documentation updates ([#26047](https://github.com/googleapis/google-cloud-ruby/issues/26047)) 
+
+### 0.17.3 (2024-05-23)
+
+#### Documentation
+
+* Update description for TaskExecution#exit_code ([#25908](https://github.com/googleapis/google-cloud-ruby/issues/25908)) 
+* Update description on allowed_locations in LocationPolicy field ([#25827](https://github.com/googleapis/google-cloud-ruby/issues/25827)) 
+
 ### 0.17.2 (2024-04-17)
 
 #### Documentation

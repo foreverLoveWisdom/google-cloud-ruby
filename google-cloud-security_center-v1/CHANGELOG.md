@@ -1,5 +1,17 @@
 # Release History
 
+### 0.41.0 (2024-06-26)
+
+#### Features
+
+* Add toxic_combination and group_memberships fields to finding ([#26160](https://github.com/googleapis/google-cloud-ruby/issues/26160)) 
+
+### 0.40.0 (2024-04-19)
+
+#### Features
+
+* Support Cloud Armor in findings ([#25449](https://github.com/googleapis/google-cloud-ruby/issues/25449)) 
+
 ### 0.39.0 (2024-03-18)
 
 #### Features

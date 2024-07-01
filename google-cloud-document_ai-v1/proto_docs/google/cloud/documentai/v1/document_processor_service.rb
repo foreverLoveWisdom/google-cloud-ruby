@@ -36,6 +36,10 @@ module Google
         #   @return [::Google::Cloud::DocumentAI::V1::OcrConfig]
         #     Only applicable to `OCR_PROCESSOR` and `FORM_PARSER_PROCESSOR`.
         #     Returns error if set on other processor types.
+        # @!attribute [rw] layout_config
+        #   @return [::Google::Cloud::DocumentAI::V1::ProcessOptions::LayoutConfig]
+        #     Optional. Only applicable to `LAYOUT_PARSER_PROCESSOR`.
+        #     Returns error if set on other processor types.
         # @!attribute [rw] schema_override
         #   @return [::Google::Cloud::DocumentAI::V1::DocumentSchema]
         #     Optional. Override the schema of the
@@ -46,6 +50,28 @@ module Google
         class ProcessOptions
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
+
+          # Serving config for layout parser processor.
+          # @!attribute [rw] chunking_config
+          #   @return [::Google::Cloud::DocumentAI::V1::ProcessOptions::LayoutConfig::ChunkingConfig]
+          #     Optional. Config for chunking in layout parser processor.
+          class LayoutConfig
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+
+            # Serving config for chunking.
+            # @!attribute [rw] chunk_size
+            #   @return [::Integer]
+            #     Optional. The chunk sizes to use when splitting documents, in order of
+            #     level.
+            # @!attribute [rw] include_ancestor_headings
+            #   @return [::Boolean]
+            #     Optional. Whether or not to include ancestor headings when splitting.
+            class ChunkingConfig
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+          end
 
           # A list of individual page numbers.
           # @!attribute [rw] pages
@@ -687,6 +713,9 @@ module Google
         # @!attribute [rw] custom_document_extraction_options
         #   @return [::Google::Cloud::DocumentAI::V1::TrainProcessorVersionRequest::CustomDocumentExtractionOptions]
         #     Options to control Custom Document Extraction (CDE) Processor.
+        # @!attribute [rw] foundation_model_tuning_options
+        #   @return [::Google::Cloud::DocumentAI::V1::TrainProcessorVersionRequest::FoundationModelTuningOptions]
+        #     Options to control foundation model tuning of a processor.
         # @!attribute [rw] parent
         #   @return [::String]
         #     Required. The parent (project, location and processor) to create the new
@@ -742,6 +771,21 @@ module Google
 
               TEMPLATE_BASED = 2
             end
+          end
+
+          # Options to control foundation model tuning of the processor.
+          # @!attribute [rw] train_steps
+          #   @return [::Integer]
+          #     Optional. The number of steps to run for model tuning. Valid values are
+          #     between 1 and 400. If not provided, recommended steps will be used.
+          # @!attribute [rw] learning_rate_multiplier
+          #   @return [::Float]
+          #     Optional. The multiplier to apply to the recommended learning rate. Valid
+          #     values are between 0.1 and 10. If not provided, recommended learning rate
+          #     will be used.
+          class FoundationModelTuningOptions
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
           end
         end
 

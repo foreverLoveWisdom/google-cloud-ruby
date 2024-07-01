@@ -35,6 +35,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "retail.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -213,7 +216,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload complete_query(catalog: nil, query: nil, visitor_id: nil, language_codes: nil, device_type: nil, dataset: nil, max_suggestions: nil, entity: nil)
+            # @overload complete_query(catalog: nil, query: nil, visitor_id: nil, language_codes: nil, device_type: nil, dataset: nil, max_suggestions: nil, enable_attribute_suggestions: nil, entity: nil)
             #   Pass arguments to `complete_query` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -283,11 +286,15 @@ module Google
             #
             #     The maximum allowed max suggestions is 20. If it is set higher, it will be
             #     capped by 20.
+            #   @param enable_attribute_suggestions [::Boolean]
+            #     If true, attribute suggestions are enabled and provided in response.
+            #
+            #     This field is only available for "cloud-retail" dataset.
             #   @param entity [::String]
-            #     The entity for customers that may run multiple different entities, domains,
-            #     sites or regions, for example, `Google US`, `Google Ads`, `Waymo`,
+            #     The entity for customers who run multiple entities, domains, sites, or
+            #     regions, for example, `Google US`, `Google Ads`, `Waymo`,
             #     `google.com`, `youtube.com`, etc.
-            #     If this is set, it should be exactly matched with
+            #     If this is set, it must be an exact match with
             #     {::Google::Cloud::Retail::V2::UserEvent#entity UserEvent.entity} to get
             #     per-entity autocomplete results.
             #
@@ -325,10 +332,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.complete_query.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Retail::V2::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -435,10 +443,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.import_completion_data.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Retail::V2::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

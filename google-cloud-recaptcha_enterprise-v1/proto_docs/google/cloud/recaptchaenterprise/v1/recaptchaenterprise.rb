@@ -431,6 +431,11 @@ module Google
         #   @return [::Google::Cloud::RecaptchaEnterprise::V1::FraudSignals]
         #     Output only. Fraud Signals specific to the users involved in a payment
         #     transaction.
+        # @!attribute [r] phone_fraud_assessment
+        #   @return [::Google::Cloud::RecaptchaEnterprise::V1::PhoneFraudAssessment]
+        #     Output only. Assessment returned when a site key, a token, and a phone
+        #     number as `user_id` are provided. Account defender and SMS toll fraud
+        #     protection need to be enabled.
         class Assessment
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -499,9 +504,30 @@ module Google
         #     can be identified. They are often identified through the use of an account
         #     for logged-in requests or login/registration requests, or by providing user
         #     identifiers for guest actions like checkout.
+        # @!attribute [rw] fraud_prevention
+        #   @return [::Google::Cloud::RecaptchaEnterprise::V1::Event::FraudPrevention]
+        #     Optional. The Fraud Prevention setting for this assessment.
         class Event
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
+
+          # Setting that controls Fraud Prevention assessments.
+          module FraudPrevention
+            # Default, unspecified setting. If opted in for automatic detection,
+            # `fraud_prevention_assessment` is returned based on the request.
+            # Otherwise, `fraud_prevention_assessment` is returned if
+            # `transaction_data` is present in the `Event` and Fraud Prevention is
+            # enabled in the Google Cloud console.
+            FRAUD_PREVENTION_UNSPECIFIED = 0
+
+            # Enable Fraud Prevention for this assessment, if Fraud Prevention is
+            # enabled in the Google Cloud console.
+            ENABLED = 1
+
+            # Disable Fraud Prevention for this assessment, regardless of opt-in
+            # status or Google Cloud console settings.
+            DISABLED = 2
+          end
         end
 
         # Transaction data associated with a payment protected by reCAPTCHA Enterprise.
@@ -913,6 +939,37 @@ module Google
               UNEXPECTED_LOCATION = 3
             end
           end
+        end
+
+        # Information about SMS toll fraud.
+        # @!attribute [r] risk
+        #   @return [::Float]
+        #     Output only. Probability of an SMS event being fraudulent.
+        #     Values are from 0.0 (lowest) to 1.0 (highest).
+        # @!attribute [r] reasons
+        #   @return [::Array<::Google::Cloud::RecaptchaEnterprise::V1::SmsTollFraudVerdict::SmsTollFraudReason>]
+        #     Output only. Reasons contributing to the SMS toll fraud verdict.
+        class SmsTollFraudVerdict
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+
+          # Reasons contributing to the SMS toll fraud verdict.
+          module SmsTollFraudReason
+            # Default unspecified reason
+            SMS_TOLL_FRAUD_REASON_UNSPECIFIED = 0
+
+            # The provided phone number was invalid
+            INVALID_PHONE_NUMBER = 1
+          end
+        end
+
+        # Assessment for Phone Fraud
+        # @!attribute [r] sms_toll_fraud_verdict
+        #   @return [::Google::Cloud::RecaptchaEnterprise::V1::SmsTollFraudVerdict]
+        #     Output only. Assessment of this phone event for risk of SMS toll fraud.
+        class PhoneFraudAssessment
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
         end
 
         # Account defender risk assessment.

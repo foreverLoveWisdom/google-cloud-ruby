@@ -1,5 +1,38 @@
 # Changelog
 
+### 0.23.1 (2024-06-24)
+
+#### Documentation
+
+* Add a note about `documentai.processors.create` permission ([#26136](https://github.com/googleapis/google-cloud-ruby/issues/26136)) 
+
+### 0.23.0 (2024-06-04)
+
+#### Features
+
+* Promote Layout Parser to generally available in V1 ([#26018](https://github.com/googleapis/google-cloud-ruby/issues/26018)) 
+
+### 0.22.0 (2024-05-30)
+
+#### Features
+
+* Make Layout Parser generally available in V1 ([#25990](https://github.com/googleapis/google-cloud-ruby/issues/25990)) 
+
+### 0.21.1 (2024-05-16)
+
+#### Documentation
+
+* Update comment formatting/wrapping ([#25878](https://github.com/googleapis/google-cloud-ruby/issues/25878)) 
+
+### 0.21.0 (2024-04-19)
+
+#### Features
+
+* Support FoundationModelTuningOptions ([#25687](https://github.com/googleapis/google-cloud-ruby/issues/25687)) 
+#### Documentation
+
+* Minor updates 
+
 ### 0.20.0 (2024-02-26)
 
 #### Features

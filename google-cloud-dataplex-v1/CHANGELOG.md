@@ -1,5 +1,35 @@
 # Changelog
 
+### 0.23.0 (2024-06-28)
+
+#### Features
+
+* expose data scan execution create time to customers ([#26243](https://github.com/googleapis/google-cloud-ruby/issues/26243)) 
+
+### 0.22.0 (2024-06-25)
+
+#### Features
+
+* Support resource location field in EntrySource ([#26142](https://github.com/googleapis/google-cloud-ruby/issues/26142)) 
+
+### 0.21.1 (2024-06-18)
+
+#### Documentation
+
+* Marked linked_resource and snippets as deprecated in SearchEntriesResult ([#26126](https://github.com/googleapis/google-cloud-ruby/issues/26126)) 
+
+### 0.21.0 (2024-05-23)
+
+#### Features
+
+* Support SQL Assertion data quality rules ([#25838](https://github.com/googleapis/google-cloud-ruby/issues/25838)) 
+
+### 0.20.0 (2024-04-19)
+
+#### Features
+
+* Support Unified Metastore and CRUD Metastore (e.g. EntryGroup, AspectType, EntryType) ([#25409](https://github.com/googleapis/google-cloud-ruby/issues/25409)) 
+
 ### 0.19.0 (2024-02-26)
 
 #### Features

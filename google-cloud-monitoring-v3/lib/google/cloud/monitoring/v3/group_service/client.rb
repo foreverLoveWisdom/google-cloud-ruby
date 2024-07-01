@@ -42,6 +42,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "monitoring.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -217,8 +220,9 @@ module Google
             #   the default parameter values, pass an empty Hash as a request object (see above).
             #
             #   @param name [::String]
-            #     Required. The [project](https://cloud.google.com/monitoring/api/v3#project_name)
-            #     whose groups are to be listed. The format is:
+            #     Required. The
+            #     [project](https://cloud.google.com/monitoring/api/v3#project_name) whose
+            #     groups are to be listed. The format is:
             #
             #         projects/[PROJECT_ID_OR_NUMBER]
             #   @param children_of_group [::String]
@@ -290,10 +294,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_groups.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -378,10 +383,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_group.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -427,13 +433,14 @@ module Google
             #   the default parameter values, pass an empty Hash as a request object (see above).
             #
             #   @param name [::String]
-            #     Required. The [project](https://cloud.google.com/monitoring/api/v3#project_name) in
-            #     which to create the group. The format is:
+            #     Required. The
+            #     [project](https://cloud.google.com/monitoring/api/v3#project_name) in which
+            #     to create the group. The format is:
             #
             #         projects/[PROJECT_ID_OR_NUMBER]
             #   @param group [::Google::Cloud::Monitoring::V3::Group, ::Hash]
-            #     Required. A group definition. It is an error to define the `name` field because
-            #     the system assigns the name.
+            #     Required. A group definition. It is an error to define the `name` field
+            #     because the system assigns the name.
             #   @param validate_only [::Boolean]
             #     If true, validate this request but do not create the group.
             #
@@ -471,10 +478,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_group.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -521,8 +529,9 @@ module Google
             #   the default parameter values, pass an empty Hash as a request object (see above).
             #
             #   @param group [::Google::Cloud::Monitoring::V3::Group, ::Hash]
-            #     Required. The new definition of the group.  All fields of the existing group,
-            #     excepting `name`, are replaced with the corresponding fields of this group.
+            #     Required. The new definition of the group.  All fields of the existing
+            #     group, excepting `name`, are replaced with the corresponding fields of this
+            #     group.
             #   @param validate_only [::Boolean]
             #     If true, validate this request but do not update the existing group.
             #
@@ -560,10 +569,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_group.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -651,10 +661,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_group.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -762,10 +773,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_group_members.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Monitoring::V3::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

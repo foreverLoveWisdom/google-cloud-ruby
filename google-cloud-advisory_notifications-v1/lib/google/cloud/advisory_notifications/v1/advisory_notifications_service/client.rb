@@ -31,6 +31,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "advisorynotifications.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -191,7 +194,7 @@ module Google
             #   @param parent [::String]
             #     Required. The parent, which owns this collection of notifications.
             #     Must be of the form "organizations/\\{organization}/locations/\\{location}"
-            #     or "projects/\\{project}/locations/\\{location}"
+            #     or "projects/\\{project}/locations/\\{location}".
             #   @param page_size [::Integer]
             #     The maximum number of notifications to return. The service may return
             #     fewer than this value. If unspecified or equal to 0, at most 50
@@ -249,10 +252,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_notifications.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AdvisoryNotifications::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -344,10 +348,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_notification.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AdvisoryNotifications::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -395,7 +400,8 @@ module Google
             #   @param name [::String]
             #     Required. The resource name of the settings to retrieve.
             #     Format:
-            #     organizations/\\{organization}/locations/\\{location}/settings.
+            #     organizations/\\{organization}/locations/\\{location}/settings or
+            #     projects/\\{projects}/locations/\\{location}/settings.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Google::Cloud::AdvisoryNotifications::V1::Settings]
@@ -431,10 +437,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_settings.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AdvisoryNotifications::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -516,10 +523,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_settings.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AdvisoryNotifications::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

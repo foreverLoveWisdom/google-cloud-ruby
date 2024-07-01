@@ -285,7 +285,7 @@ module Google
           #     and new credentials are needed, as indicated by `CheckValidCreds`. In order
           #     to obtain authorization_code, make a request to the following URL:
           #     <pre class="prettyprint" suppresswarning="true">
-          #     https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
+          #     https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
           #     </pre>
           #     * The <var>client_id</var> is the OAuth client_id of the a data source as
           #     returned by ListDataSources method.
@@ -301,7 +301,7 @@ module Google
           #     are needed, as indicated by `CheckValidCreds`. In order to obtain version
           #     info, make a request to the following URL:
           #     <pre class="prettyprint" suppresswarning="true">
-          #     https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
+          #     https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
           #     </pre>
           #     * The <var>client_id</var> is the OAuth client_id of the a data source as
           #     returned by ListDataSources method.
@@ -338,7 +338,7 @@ module Google
           #     and new credentials are needed, as indicated by `CheckValidCreds`. In order
           #     to obtain authorization_code, make a request to the following URL:
           #     <pre class="prettyprint" suppresswarning="true">
-          #     https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
+          #     https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
           #     </pre>
           #     * The <var>client_id</var> is the OAuth client_id of the a data source as
           #     returned by ListDataSources method.
@@ -357,7 +357,7 @@ module Google
           #     are needed, as indicated by `CheckValidCreds`. In order to obtain version
           #     info, make a request to the following URL:
           #     <pre class="prettyprint" suppresswarning="true">
-          #     https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
+          #     https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=<var>client_id</var>&scope=<var>data_source_scopes</var>
           #     </pre>
           #     * The <var>client_id</var> is the OAuth client_id of the a data source as
           #     returned by ListDataSources method.
@@ -616,7 +616,7 @@ module Google
           # A request to start manual transfer runs.
           # @!attribute [rw] parent
           #   @return [::String]
-          #     Transfer configuration name in the form:
+          #     Required. Transfer configuration name in the form:
           #     `projects/{project_id}/transferConfigs/{config_id}` or
           #     `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}`.
           # @!attribute [rw] requested_time_range
@@ -668,7 +668,8 @@ module Google
           # BigQuery UI's `Transfer` tab.
           # @!attribute [rw] name
           #   @return [::String]
-          #     The name of the project resource in the form: `projects/{project_id}`
+          #     Required. The name of the project resource in the form:
+          #     `projects/{project_id}`
           # @!attribute [rw] data_source_ids
           #   @return [::Array<::String>]
           #     Data sources that are enrolled. It is required to provide at least one
@@ -682,7 +683,8 @@ module Google
           # the BigQuery UI's `Transfer` tab.
           # @!attribute [rw] name
           #   @return [::String]
-          #     The name of the project resource in the form: `projects/{project_id}`
+          #     Required. The name of the project resource in the form:
+          #     `projects/{project_id}`
           # @!attribute [rw] data_source_ids
           #   @return [::Array<::String>]
           #     Data sources that are unenrolled. It is required to provide at least one

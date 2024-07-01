@@ -1,5 +1,23 @@
 # Changelog
 
+### 0.11.0 (2024-06-24)
+
+#### Features
+
+* Support Key Access Justifications policy configuration ([#26138](https://github.com/googleapis/google-cloud-ruby/issues/26138)) 
+
+### 0.10.0 (2024-05-15)
+
+#### Features
+
+* support the ED25519 asymmetric signing algorithm ([#25857](https://github.com/googleapis/google-cloud-ruby/issues/25857)) 
+
+### 0.9.1 (2024-04-19)
+
+#### Documentation
+
+* Clarify PEM format field in google.cloud.kms.v1.PublicKey is always populated ([#25686](https://github.com/googleapis/google-cloud-ruby/issues/25686)) 
+
 ### 0.9.0 (2024-02-26)
 
 #### Features

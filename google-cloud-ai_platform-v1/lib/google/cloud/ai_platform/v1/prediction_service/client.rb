@@ -33,6 +33,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "aiplatform.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -263,10 +266,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -376,10 +380,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.raw_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -468,10 +473,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.stream_raw_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -560,10 +566,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.direct_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -658,10 +665,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.direct_raw_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -745,10 +753,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.stream_direct_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               options.apply_defaults timeout:      @config.rpcs.stream_direct_predict.timeout,
@@ -824,10 +833,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.stream_direct_raw_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               options.apply_defaults timeout:      @config.rpcs.stream_direct_raw_predict.timeout,
@@ -903,10 +913,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.streaming_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               options.apply_defaults timeout:      @config.rpcs.streaming_predict.timeout,
@@ -990,10 +1001,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.server_streaming_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1076,10 +1088,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.streaming_raw_predict.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               options.apply_defaults timeout:      @config.rpcs.streaming_raw_predict.timeout,
@@ -1194,10 +1207,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.explain.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1237,7 +1251,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload generate_content(model: nil, contents: nil, tools: nil, safety_settings: nil, generation_config: nil)
+            # @overload generate_content(model: nil, contents: nil, system_instruction: nil, tools: nil, tool_config: nil, safety_settings: nil, generation_config: nil)
             #   Pass arguments to `generate_content` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -1252,6 +1266,10 @@ module Google
             #     For single-turn queries, this is a single instance. For multi-turn queries,
             #     this is a repeated field that contains conversation history + latest
             #     request.
+            #   @param system_instruction [::Google::Cloud::AIPlatform::V1::Content, ::Hash]
+            #     Optional. The user provided system instructions for the model.
+            #     Note: only text should be used in parts and content in each part will be in
+            #     a separate paragraph.
             #   @param tools [::Array<::Google::Cloud::AIPlatform::V1::Tool, ::Hash>]
             #     Optional. A list of `Tools` the model may use to generate the next
             #     response.
@@ -1259,6 +1277,9 @@ module Google
             #     A `Tool` is a piece of code that enables the system to interact with
             #     external systems to perform an action, or set of actions, outside of
             #     knowledge and scope of the model.
+            #   @param tool_config [::Google::Cloud::AIPlatform::V1::ToolConfig, ::Hash]
+            #     Optional. Tool config. This config is shared for all tools provided in the
+            #     request.
             #   @param safety_settings [::Array<::Google::Cloud::AIPlatform::V1::SafetySetting, ::Hash>]
             #     Optional. Per request settings for blocking unsafe content.
             #     Enforced on GenerateContentResponse.candidates.
@@ -1299,10 +1320,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.generate_content.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1342,7 +1364,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload stream_generate_content(model: nil, contents: nil, tools: nil, safety_settings: nil, generation_config: nil)
+            # @overload stream_generate_content(model: nil, contents: nil, system_instruction: nil, tools: nil, tool_config: nil, safety_settings: nil, generation_config: nil)
             #   Pass arguments to `stream_generate_content` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -1357,6 +1379,10 @@ module Google
             #     For single-turn queries, this is a single instance. For multi-turn queries,
             #     this is a repeated field that contains conversation history + latest
             #     request.
+            #   @param system_instruction [::Google::Cloud::AIPlatform::V1::Content, ::Hash]
+            #     Optional. The user provided system instructions for the model.
+            #     Note: only text should be used in parts and content in each part will be in
+            #     a separate paragraph.
             #   @param tools [::Array<::Google::Cloud::AIPlatform::V1::Tool, ::Hash>]
             #     Optional. A list of `Tools` the model may use to generate the next
             #     response.
@@ -1364,6 +1390,9 @@ module Google
             #     A `Tool` is a piece of code that enables the system to interact with
             #     external systems to perform an action, or set of actions, outside of
             #     knowledge and scope of the model.
+            #   @param tool_config [::Google::Cloud::AIPlatform::V1::ToolConfig, ::Hash]
+            #     Optional. Tool config. This config is shared for all tools provided in the
+            #     request.
             #   @param safety_settings [::Array<::Google::Cloud::AIPlatform::V1::SafetySetting, ::Hash>]
             #     Optional. Per request settings for blocking unsafe content.
             #     Enforced on GenerateContentResponse.candidates.
@@ -1407,10 +1436,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.stream_generate_content.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::AIPlatform::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

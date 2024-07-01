@@ -41,8 +41,14 @@ module Google
             # resource is not in a Cloud Organization.
             # For all requests, returns a `google.rpc.Status` with
             # `google.rpc.Code.INVALID_ARGUMENT` if the request is malformed.
+            # (== deprecation_description Resource Settings is deprecated. As of November
+            # 7, 2023, no organizations will be onboarded for any of the enabled settings,
+            # and the service will be shut down on October 1, 2024. ==)
             #
             class Client
+              # @private
+              API_VERSION = ""
+
               # @private
               DEFAULT_ENDPOINT_TEMPLATE = "resourcesettings.$UNIVERSE_DOMAIN$"
 
@@ -56,6 +62,7 @@ module Google
               #
               # See {::Google::Cloud::ResourceSettings::V1::ResourceSettingsService::Rest::Client::Configuration}
               # for a description of the configuration fields.
+              # @deprecated This service is deprecated and may be removed in the next major version update.
               #
               # @example
               #
@@ -198,8 +205,8 @@ module Google
               #   the default parameter values, pass an empty Hash as a request object (see above).
               #
               #   @param parent [::String]
-              #     Required. The Cloud resource that parents the setting. Must be in one of the
-              #     following forms:
+              #     Required. The Cloud resource that parents the setting. Must be in one of
+              #     the following forms:
               #
               #     * `projects/{project_number}`
               #     * `projects/{project_id}`
@@ -249,12 +256,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.list_settings.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::ResourceSettings::V1::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.list_settings.timeout,
@@ -296,7 +304,8 @@ module Google
               #   the default parameter values, pass an empty Hash as a request object (see above).
               #
               #   @param name [::String]
-              #     Required. The name of the setting to get. See {::Google::Cloud::ResourceSettings::V1::Setting Setting} for naming
+              #     Required. The name of the setting to get. See
+              #     {::Google::Cloud::ResourceSettings::V1::Setting Setting} for naming
               #     requirements.
               #   @param view [::Google::Cloud::ResourceSettings::V1::SettingView]
               #     The SettingView for this request.
@@ -334,12 +343,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_setting.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::ResourceSettings::V1::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_setting.timeout,
@@ -392,7 +402,8 @@ module Google
               #   the default parameter values, pass an empty Hash as a request object (see above).
               #
               #   @param setting [::Google::Cloud::ResourceSettings::V1::Setting, ::Hash]
-              #     Required. The setting to update. See {::Google::Cloud::ResourceSettings::V1::Setting Setting} for field requirements.
+              #     Required. The setting to update. See
+              #     {::Google::Cloud::ResourceSettings::V1::Setting Setting} for field requirements.
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::ResourceSettings::V1::Setting]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -427,12 +438,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.update_setting.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::ResourceSettings::V1::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.update_setting.timeout,

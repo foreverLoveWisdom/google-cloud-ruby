@@ -22,7 +22,7 @@ module Google
     module DiscoveryEngine
       module V1
         # UserEvent captures all metadata information Discovery Engine API needs to
-        # know about how end users interact with customers' website.
+        # know about how end users interact with your website.
         # @!attribute [rw] event_type
         #   @return [::String]
         #     Required. User event type. Allowed values are:
@@ -63,6 +63,27 @@ module Google
         #     Analytics [Client
         #     ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId)
         #     for this field.
+        # @!attribute [rw] engine
+        #   @return [::String]
+        #     The {::Google::Cloud::DiscoveryEngine::V1::Engine Engine} resource name, in the
+        #     form of
+        #     `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`.
+        #
+        #     Optional. Only required for
+        #     {::Google::Cloud::DiscoveryEngine::V1::Engine Engine} produced user events. For
+        #     example, user events from blended search.
+        # @!attribute [rw] data_store
+        #   @return [::String]
+        #     The {::Google::Cloud::DiscoveryEngine::V1::DataStore DataStore} resource full
+        #     name, of the form
+        #     `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`.
+        #
+        #     Optional. Only required for user events whose data store can't by
+        #     determined by
+        #     {::Google::Cloud::DiscoveryEngine::V1::UserEvent#engine UserEvent.engine} or
+        #     {::Google::Cloud::DiscoveryEngine::V1::UserEvent#documents UserEvent.documents}.
+        #     If data store is set in the parent of write/import/collect user event
+        #     requests, this field can be omitted.
         # @!attribute [rw] event_time
         #   @return [::Google::Protobuf::Timestamp]
         #     Only required for
@@ -105,22 +126,26 @@ module Google
         #     Token to attribute an API response to user action(s) to trigger the event.
         #
         #     Highly recommended for user events that are the result of
-        #     [RecommendationService.Recommend][]. This field enables accurate
-        #     attribution of recommendation model performance.
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendationService::Client#recommend RecommendationService.Recommend}.
+        #     This field enables accurate attribution of recommendation model
+        #     performance.
         #
         #     The value must be one of:
         #
-        #     * [RecommendResponse.attribution_token][] for events that are the result of
-        #     [RecommendationService.Recommend][].
+        #     * {::Google::Cloud::DiscoveryEngine::V1::RecommendResponse#attribution_token RecommendResponse.attribution_token} for events that are the result of
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendationService::Client#recommend RecommendationService.Recommend}.
         #     * {::Google::Cloud::DiscoveryEngine::V1::SearchResponse#attribution_token SearchResponse.attribution_token} for events that are the result of
         #     {::Google::Cloud::DiscoveryEngine::V1::SearchService::Client#search SearchService.Search}.
         #
         #     This token enables us to accurately attribute page view or conversion
         #     completion back to the event and the particular predict response containing
         #     this clicked/purchased product. If user clicks on product K in the
-        #     recommendation results, pass [RecommendResponse.attribution_token][] as a
-        #     URL parameter to product K's page. When recording events on product K's
-        #     page, log the [RecommendResponse.attribution_token][] to this field.
+        #     recommendation results, pass
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendResponse#attribution_token RecommendResponse.attribution_token}
+        #     as a URL parameter to product K's page. When recording events on product
+        #     K's page, log the
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendResponse#attribution_token RecommendResponse.attribution_token}
+        #     to this field.
         # @!attribute [rw] filter
         #   @return [::String]
         #     The filter syntax consists of an expression language for constructing a
@@ -133,9 +158,10 @@ module Google
         #     conforming to https://google.aip.dev/160#filtering.
         #
         #     Similarly, for `view-item-list` events that are generated from a
-        #     [RecommendRequest][], this field may be populated directly from
-        #     [RecommendRequest.filter][] conforming to
-        #     https://google.aip.dev/160#filtering.
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendRequest RecommendRequest}, this
+        #     field may be populated directly from
+        #     {::Google::Cloud::DiscoveryEngine::V1::RecommendRequest#filter RecommendRequest.filter}
+        #     conforming to https://google.aip.dev/160#filtering.
         #
         #     The value must be a UTF-8 encoded string with a length limit of 1,000
         #     characters. Otherwise, an `INVALID_ARGUMENT` error is returned.
@@ -182,7 +208,7 @@ module Google
         #   @return [::Array<::String>]
         #     A list of identifiers for the independent experiment groups this user event
         #     belongs to. This is used to distinguish between user events associated with
-        #     different experiment setups on the customer end.
+        #     different experiment setups.
         # @!attribute [rw] promotion_ids
         #   @return [::Array<::String>]
         #     The promotion IDs if this is an event associated with promotions.
@@ -250,7 +276,7 @@ module Google
         #     The most specific category associated with a category page.
         #
         #     To represent full path of category, use '>' sign to separate different
-        #     hierarchies. If '>' is part of the category name, please replace it with
+        #     hierarchies. If '>' is part of the category name, replace it with
         #     other character(s).
         #
         #     Category pages include special pages such as sales or promotions. For
@@ -410,7 +436,7 @@ module Google
         #   @return [::Integer]
         #     Quantity of the Document associated with the user event. Defaults to 1.
         #
-        #     For example, this field will be 2 if two quantities of the same Document
+        #     For example, this field is 2 if two quantities of the same Document
         #     are involved in a `add-to-cart` event.
         #
         #     Required for events of the following event types:

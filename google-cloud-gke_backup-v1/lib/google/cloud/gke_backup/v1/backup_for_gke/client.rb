@@ -34,6 +34,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "gkebackup.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -151,6 +154,11 @@ module Google
 
                 default_config.rpcs.get_volume_restore.timeout = 60.0
                 default_config.rpcs.get_volume_restore.retry_policy = {
+                  initial_delay: 1.0, max_delay: 60.0, multiplier: 1.3, retry_codes: [14]
+                }
+
+                default_config.rpcs.get_backup_index_download_url.timeout = 60.0
+                default_config.rpcs.get_backup_index_download_url.retry_policy = {
                   initial_delay: 1.0, max_delay: 60.0, multiplier: 1.3, retry_codes: [14]
                 }
 
@@ -363,10 +371,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_backup_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -416,23 +425,23 @@ module Google
             #     Required. The location that contains the BackupPlans to list.
             #     Format: `projects/*/locations/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListBackupPlansResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListBackupPlansResponse#next_page_token next_page_token}
             #     received from a previous `ListBackupPlans` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to
             #     `ListBackupPlans` must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::BackupPlan>]
@@ -472,10 +481,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_backup_plans.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -559,10 +569,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_backup_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -611,7 +622,7 @@ module Google
             #     Required. A new version of the BackupPlan resource that contains updated
             #     fields. This may be sparsely populated if an `update_mask` is provided.
             #   @param update_mask [::Google::Protobuf::FieldMask, ::Hash]
-            #     This is used to specify the fields to be overwritten in the
+            #     Optional. This is used to specify the fields to be overwritten in the
             #     BackupPlan targeted for update. The values for each of these
             #     updated fields will be taken from the `backup_plan` provided
             #     with this request. Field names are relative to the root of the resource
@@ -662,10 +673,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_backup_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -715,7 +727,7 @@ module Google
             #     Required. Fully qualified BackupPlan name.
             #     Format: `projects/*/locations/*/backupPlans/*`
             #   @param etag [::String]
-            #     If provided, this value must match the current value of the
+            #     Optional. If provided, this value must match the current value of the
             #     target BackupPlan's {::Google::Cloud::GkeBackup::V1::BackupPlan#etag etag} field
             #     or the request is rejected.
             #
@@ -760,10 +772,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_backup_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -813,9 +826,9 @@ module Google
             #     Required. The BackupPlan within which to create the Backup.
             #     Format: `projects/*/locations/*/backupPlans/*`
             #   @param backup [::Google::Cloud::GkeBackup::V1::Backup, ::Hash]
-            #     The Backup resource to create.
+            #     Optional. The Backup resource to create.
             #   @param backup_id [::String]
-            #     The client-provided short name for the Backup resource.
+            #     Optional. The client-provided short name for the Backup resource.
             #     This name must:
             #
             #     - be between 1 and 63 characters long (inclusive)
@@ -865,10 +878,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_backup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -918,23 +932,23 @@ module Google
             #     Required. The BackupPlan that contains the Backups to list.
             #     Format: `projects/*/locations/*/backupPlans/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListBackupsResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListBackupsResponse#next_page_token next_page_token}
             #     received from a previous `ListBackups` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to
             #     `ListBackups` must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::Backup>]
@@ -974,10 +988,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_backups.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1061,10 +1076,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_backup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1113,7 +1129,7 @@ module Google
             #     Required. A new version of the Backup resource that contains updated
             #     fields. This may be sparsely populated if an `update_mask` is provided.
             #   @param update_mask [::Google::Protobuf::FieldMask, ::Hash]
-            #     This is used to specify the fields to be overwritten in the
+            #     Optional. This is used to specify the fields to be overwritten in the
             #     Backup targeted for update. The values for each of these
             #     updated fields will be taken from the `backup_plan` provided
             #     with this request. Field names are relative to the root of the resource.
@@ -1163,10 +1179,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_backup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1216,12 +1233,12 @@ module Google
             #     Required. Name of the Backup resource.
             #     Format: `projects/*/locations/*/backupPlans/*/backups/*`
             #   @param etag [::String]
-            #     If provided, this value must match the current value of the
+            #     Optional. If provided, this value must match the current value of the
             #     target Backup's {::Google::Cloud::GkeBackup::V1::Backup#etag etag} field or the
             #     request is rejected.
             #   @param force [::Boolean]
-            #     If set to true, any VolumeBackups below this Backup will also be deleted.
-            #     Otherwise, the request will only succeed if the Backup has no
+            #     Optional. If set to true, any VolumeBackups below this Backup will also be
+            #     deleted. Otherwise, the request will only succeed if the Backup has no
             #     VolumeBackups.
             #
             # @yield [response, operation] Access the result along with the RPC operation
@@ -1265,10 +1282,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_backup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1318,23 +1336,23 @@ module Google
             #     Required. The Backup that contains the VolumeBackups to list.
             #     Format: `projects/*/locations/*/backupPlans/*/backups/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListVolumeBackupsResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListVolumeBackupsResponse#next_page_token next_page_token}
             #     received from a previous `ListVolumeBackups` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to
             #     `ListVolumeBackups` must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::VolumeBackup>]
@@ -1374,10 +1392,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_volume_backups.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1461,10 +1480,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_volume_backup.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1565,10 +1585,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_restore_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1618,23 +1639,23 @@ module Google
             #     Required. The location that contains the RestorePlans to list.
             #     Format: `projects/*/locations/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListRestorePlansResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListRestorePlansResponse#next_page_token next_page_token}
             #     received from a previous `ListRestorePlans` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to
             #     `ListRestorePlans` must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::RestorePlan>]
@@ -1674,10 +1695,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_restore_plans.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1761,10 +1783,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_restore_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1813,7 +1836,7 @@ module Google
             #     Required. A new version of the RestorePlan resource that contains updated
             #     fields. This may be sparsely populated if an `update_mask` is provided.
             #   @param update_mask [::Google::Protobuf::FieldMask, ::Hash]
-            #     This is used to specify the fields to be overwritten in the
+            #     Optional. This is used to specify the fields to be overwritten in the
             #     RestorePlan targeted for update. The values for each of these
             #     updated fields will be taken from the `restore_plan` provided
             #     with this request. Field names are relative to the root of the resource.
@@ -1863,10 +1886,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_restore_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1916,12 +1940,12 @@ module Google
             #     Required. Fully qualified RestorePlan name.
             #     Format: `projects/*/locations/*/restorePlans/*`
             #   @param etag [::String]
-            #     If provided, this value must match the current value of the
+            #     Optional. If provided, this value must match the current value of the
             #     target RestorePlan's {::Google::Cloud::GkeBackup::V1::RestorePlan#etag etag}
             #     field or the request is rejected.
             #   @param force [::Boolean]
-            #     If set to true, any Restores below this RestorePlan will also be deleted.
-            #     Otherwise, the request will only succeed if the RestorePlan has no
+            #     Optional. If set to true, any Restores below this RestorePlan will also be
+            #     deleted. Otherwise, the request will only succeed if the RestorePlan has no
             #     Restores.
             #
             # @yield [response, operation] Access the result along with the RPC operation
@@ -1965,10 +1989,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_restore_plan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2070,10 +2095,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_restore.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2123,23 +2149,23 @@ module Google
             #     Required. The RestorePlan that contains the Restores to list.
             #     Format: `projects/*/locations/*/restorePlans/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListRestoresResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListRestoresResponse#next_page_token next_page_token}
             #     received from a previous `ListRestores` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to `ListRestores`
             #     must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::Restore>]
@@ -2179,10 +2205,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_restores.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2266,10 +2293,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_restore.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2318,7 +2346,7 @@ module Google
             #     Required. A new version of the Restore resource that contains updated
             #     fields. This may be sparsely populated if an `update_mask` is provided.
             #   @param update_mask [::Google::Protobuf::FieldMask, ::Hash]
-            #     This is used to specify the fields to be overwritten in the
+            #     Optional. This is used to specify the fields to be overwritten in the
             #     Restore targeted for update. The values for each of these
             #     updated fields will be taken from the `restore` provided
             #     with this request. Field names are relative to the root of the resource.
@@ -2368,10 +2396,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_restore.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2421,12 +2450,12 @@ module Google
             #     Required. Full name of the Restore
             #     Format: `projects/*/locations/*/restorePlans/*/restores/*`
             #   @param etag [::String]
-            #     If provided, this value must match the current value of the
+            #     Optional. If provided, this value must match the current value of the
             #     target Restore's {::Google::Cloud::GkeBackup::V1::Restore#etag etag} field or
             #     the request is rejected.
             #   @param force [::Boolean]
-            #     If set to true, any VolumeRestores below this restore will also be deleted.
-            #     Otherwise, the request will only succeed if the restore has no
+            #     Optional. If set to true, any VolumeRestores below this restore will also
+            #     be deleted. Otherwise, the request will only succeed if the restore has no
             #     VolumeRestores.
             #
             # @yield [response, operation] Access the result along with the RPC operation
@@ -2470,10 +2499,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_restore.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2523,23 +2553,23 @@ module Google
             #     Required. The Restore that contains the VolumeRestores to list.
             #     Format: `projects/*/locations/*/restorePlans/*/restores/*`
             #   @param page_size [::Integer]
-            #     The target number of results to return in a single response.
+            #     Optional. The target number of results to return in a single response.
             #     If not specified, a default value will be chosen by the service.
-            #     Note that the response may inclue a partial list and a caller should
+            #     Note that the response may include a partial list and a caller should
             #     only rely on the response's
             #     {::Google::Cloud::GkeBackup::V1::ListVolumeRestoresResponse#next_page_token next_page_token}
             #     to determine if there are more instances left to be queried.
             #   @param page_token [::String]
-            #     The value of
+            #     Optional. The value of
             #     {::Google::Cloud::GkeBackup::V1::ListVolumeRestoresResponse#next_page_token next_page_token}
             #     received from a previous `ListVolumeRestores` call.
             #     Provide this to retrieve the subsequent page in a multi-page list of
             #     results. When paginating, all other parameters provided to
             #     `ListVolumeRestores` must match the call that provided the page token.
             #   @param filter [::String]
-            #     Field match expression used to filter the results.
+            #     Optional. Field match expression used to filter the results.
             #   @param order_by [::String]
-            #     Field by which to sort the results.
+            #     Optional. Field by which to sort the results.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Gapic::PagedEnumerable<::Google::Cloud::GkeBackup::V1::VolumeRestore>]
@@ -2579,10 +2609,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_volume_restores.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2666,10 +2697,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_volume_restore.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2689,6 +2721,94 @@ module Google
                                      retry_policy: @config.retry_policy
 
               @backup_for_gke_stub.call_rpc :get_volume_restore, request, options: options do |response, operation|
+                yield response, operation if block_given?
+                return response
+              end
+            rescue ::GRPC::BadStatus => e
+              raise ::Google::Cloud::Error.from_error(e)
+            end
+
+            ##
+            # Retrieve the link to the backupIndex.
+            #
+            # @overload get_backup_index_download_url(request, options = nil)
+            #   Pass arguments to `get_backup_index_download_url` via a request object, either of type
+            #   {::Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlRequest} or an equivalent Hash.
+            #
+            #   @param request [::Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlRequest, ::Hash]
+            #     A request object representing the call parameters. Required. To specify no
+            #     parameters, or to keep all the default parameter values, pass an empty Hash.
+            #   @param options [::Gapic::CallOptions, ::Hash]
+            #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
+            #
+            # @overload get_backup_index_download_url(backup: nil)
+            #   Pass arguments to `get_backup_index_download_url` via keyword arguments. Note that at
+            #   least one keyword argument is required. To specify no parameters, or to keep all
+            #   the default parameter values, pass an empty Hash as a request object (see above).
+            #
+            #   @param backup [::String]
+            #     Required. Full name of Backup resource.
+            #     Format:
+            #     projects/\\{project}/locations/\\{location}/backupPlans/\\{backup_plan}/backups/\\{backup}
+            #
+            # @yield [response, operation] Access the result along with the RPC operation
+            # @yieldparam response [::Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlResponse]
+            # @yieldparam operation [::GRPC::ActiveCall::Operation]
+            #
+            # @return [::Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlResponse]
+            #
+            # @raise [::Google::Cloud::Error] if the RPC is aborted.
+            #
+            # @example Basic example
+            #   require "google/cloud/gke_backup/v1"
+            #
+            #   # Create a client object. The client can be reused for multiple calls.
+            #   client = Google::Cloud::GkeBackup::V1::BackupForGKE::Client.new
+            #
+            #   # Create a request. To set request fields, pass in keyword arguments.
+            #   request = Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlRequest.new
+            #
+            #   # Call the get_backup_index_download_url method.
+            #   result = client.get_backup_index_download_url request
+            #
+            #   # The returned object is of type Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlResponse.
+            #   p result
+            #
+            def get_backup_index_download_url request, options = nil
+              raise ::ArgumentError, "request must be provided" if request.nil?
+
+              request = ::Gapic::Protobuf.coerce request, to: ::Google::Cloud::GkeBackup::V1::GetBackupIndexDownloadUrlRequest
+
+              # Converts hash and nil to an options object
+              options = ::Gapic::CallOptions.new(**options.to_h) if options.respond_to? :to_h
+
+              # Customize the options with defaults
+              metadata = @config.rpcs.get_backup_index_download_url.metadata.to_h
+
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
+              metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
+                lib_name: @config.lib_name, lib_version: @config.lib_version,
+                gapic_version: ::Google::Cloud::GkeBackup::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
+              metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
+
+              header_params = {}
+              if request.backup
+                header_params["backup"] = request.backup
+              end
+
+              request_params_header = header_params.map { |k, v| "#{k}=#{v}" }.join("&")
+              metadata[:"x-goog-request-params"] ||= request_params_header
+
+              options.apply_defaults timeout:      @config.rpcs.get_backup_index_download_url.timeout,
+                                     metadata:     metadata,
+                                     retry_policy: @config.rpcs.get_backup_index_download_url.retry_policy
+
+              options.apply_defaults timeout:      @config.timeout,
+                                     metadata:     @config.metadata,
+                                     retry_policy: @config.retry_policy
+
+              @backup_for_gke_stub.call_rpc :get_backup_index_download_url, request, options: options do |response, operation|
                 yield response, operation if block_given?
                 return response
               end
@@ -2969,6 +3089,11 @@ module Google
                 # @return [::Gapic::Config::Method]
                 #
                 attr_reader :get_volume_restore
+                ##
+                # RPC-specific configuration for `get_backup_index_download_url`
+                # @return [::Gapic::Config::Method]
+                #
+                attr_reader :get_backup_index_download_url
 
                 # @private
                 def initialize parent_rpcs = nil
@@ -3020,6 +3145,8 @@ module Google
                   @list_volume_restores = ::Gapic::Config::Method.new list_volume_restores_config
                   get_volume_restore_config = parent_rpcs.get_volume_restore if parent_rpcs.respond_to? :get_volume_restore
                   @get_volume_restore = ::Gapic::Config::Method.new get_volume_restore_config
+                  get_backup_index_download_url_config = parent_rpcs.get_backup_index_download_url if parent_rpcs.respond_to? :get_backup_index_download_url
+                  @get_backup_index_download_url = ::Gapic::Config::Method.new get_backup_index_download_url_config
 
                   yield self if block_given?
                 end

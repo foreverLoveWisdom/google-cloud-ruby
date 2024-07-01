@@ -35,6 +35,9 @@ module Google
               #
               class Client
                 # @private
+                API_VERSION = ""
+
+                # @private
                 DEFAULT_ENDPOINT_TEMPLATE = "merchantapi.$UNIVERSE_DOMAIN$"
 
                 # @private
@@ -189,7 +192,7 @@ module Google
                 #     fields.
                 #   @param page_size [::Integer]
                 #     Optional. Number of `ReportRows` to retrieve in a single page. Defaults to
-                #     the maximum of 1000. Values above 1000 are coerced to 1000.
+                #     1000. Values above 5000 are coerced to 5000.
                 #   @param page_token [::String]
                 #     Optional. Token of the page to retrieve. If not specified, the first page
                 #     of results is returned. In order to request the next page of results, the
@@ -233,12 +236,13 @@ module Google
                   # Customize the options with defaults
                   call_metadata = @config.rpcs.search.metadata.to_h
 
-                  # Set x-goog-api-client and x-goog-user-project headers
+                  # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                   call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                     lib_name: @config.lib_name, lib_version: @config.lib_version,
                     gapic_version: ::Google::Shopping::Merchant::Reports::V1beta::VERSION,
                     transports_version_send: [:rest]
 
+                  call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                   call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                   options.apply_defaults timeout:      @config.rpcs.search.timeout,

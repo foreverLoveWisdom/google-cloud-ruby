@@ -1,5 +1,23 @@
 # Release History
 
+### 0.27.0 (2024-06-24)
+
+#### Features
+
+* Support Key Access Justifications policy configuration ([#26137](https://github.com/googleapis/google-cloud-ruby/issues/26137)) 
+
+### 0.26.0 (2024-05-15)
+
+#### Features
+
+* Support new Autokey ad AutokeyAdmin services ([#25856](https://github.com/googleapis/google-cloud-ruby/issues/25856)) 
+
+### 0.25.1 (2024-04-19)
+
+#### Documentation
+
+* Clarify PEM format field in google.cloud.kms.v1.PublicKey is always populated ([#25685](https://github.com/googleapis/google-cloud-ruby/issues/25685)) 
+
 ### 0.25.0 (2024-02-26)
 
 #### Features

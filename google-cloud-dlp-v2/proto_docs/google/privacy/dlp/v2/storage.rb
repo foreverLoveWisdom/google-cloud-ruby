@@ -652,6 +652,17 @@ module Google
           #     since the last time the JobTrigger executed. This will be based on the
           #     time of the execution of the last run of the JobTrigger or the timespan
           #     end_time used in the last run of the JobTrigger.
+          #
+          #     **For BigQuery**
+          #
+          #     Inspect jobs triggered by automatic population will scan data that is at
+          #     least three hours old when the job starts. This is because streaming
+          #     buffer rows are not read during inspection and reading up to the current
+          #     timestamp will result in skipped rows.
+          #
+          #     See the [known
+          #     issue](https://cloud.google.com/sensitive-data-protection/docs/known-issues#recently-streamed-data)
+          #     related to this operation.
           class TimespanConfig
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -815,6 +826,19 @@ module Google
         #   @return [::String]
         #     Name of the table.
         class BigQueryTable
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+        end
+
+        # Message defining the location of a BigQuery table with the projectId inferred
+        # from the parent project.
+        # @!attribute [rw] dataset_id
+        #   @return [::String]
+        #     Dataset ID of the table.
+        # @!attribute [rw] table_id
+        #   @return [::String]
+        #     Name of the table.
+        class TableReference
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
         end

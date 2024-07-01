@@ -34,6 +34,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "spanner.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -72,71 +75,71 @@ module Google
 
                 default_config.rpcs.create_session.timeout = 30.0
                 default_config.rpcs.create_session.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.batch_create_sessions.timeout = 60.0
                 default_config.rpcs.batch_create_sessions.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.get_session.timeout = 30.0
                 default_config.rpcs.get_session.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.list_sessions.timeout = 3600.0
                 default_config.rpcs.list_sessions.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.delete_session.timeout = 30.0
                 default_config.rpcs.delete_session.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.execute_sql.timeout = 30.0
                 default_config.rpcs.execute_sql.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.execute_streaming_sql.timeout = 3600.0
 
                 default_config.rpcs.execute_batch_dml.timeout = 30.0
                 default_config.rpcs.execute_batch_dml.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.read.timeout = 30.0
                 default_config.rpcs.read.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.streaming_read.timeout = 3600.0
 
                 default_config.rpcs.begin_transaction.timeout = 30.0
                 default_config.rpcs.begin_transaction.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.commit.timeout = 3600.0
                 default_config.rpcs.commit.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.rollback.timeout = 30.0
                 default_config.rpcs.rollback.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.partition_query.timeout = 30.0
                 default_config.rpcs.partition_query.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.partition_read.timeout = 30.0
                 default_config.rpcs.partition_read.retry_policy = {
-                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14]
+                  initial_delay: 0.25, max_delay: 32.0, multiplier: 1.3, retry_codes: [14, 8]
                 }
 
                 default_config.rpcs.batch_write.timeout = 3600.0
@@ -309,10 +312,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_session.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -406,10 +410,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.batch_create_sessions.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -493,10 +498,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_session.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -601,10 +607,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_sessions.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -689,10 +696,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_session.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -865,10 +873,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.execute_sql.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1036,10 +1045,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.execute_streaming_sql.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1156,10 +1166,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.execute_batch_dml.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1212,7 +1223,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload read(session: nil, transaction: nil, table: nil, index: nil, columns: nil, key_set: nil, limit: nil, resume_token: nil, partition_token: nil, request_options: nil, directed_read_options: nil, data_boost_enabled: nil)
+            # @overload read(session: nil, transaction: nil, table: nil, index: nil, columns: nil, key_set: nil, limit: nil, resume_token: nil, partition_token: nil, request_options: nil, directed_read_options: nil, data_boost_enabled: nil, order_by: nil, lock_hint: nil)
             #   Pass arguments to `read` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -1277,6 +1288,17 @@ module Google
             #
             #     If the field is set to `true` but the request does not set
             #     `partition_token`, the API returns an `INVALID_ARGUMENT` error.
+            #   @param order_by [::Google::Cloud::Spanner::V1::ReadRequest::OrderBy]
+            #     Optional. Order for the returned rows.
+            #
+            #     By default, Spanner will return result rows in primary key order except for
+            #     PartitionRead requests. For applications that do not require rows to be
+            #     returned in primary key (`ORDER_BY_PRIMARY_KEY`) order, setting
+            #     `ORDER_BY_NO_ORDER` option allows Spanner to optimize row retrieval,
+            #     resulting in lower latencies in certain cases (e.g. bulk point lookups).
+            #   @param lock_hint [::Google::Cloud::Spanner::V1::ReadRequest::LockHint]
+            #     Optional. Lock Hint for the request, it can only be used with read-write
+            #     transactions.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Google::Cloud::Spanner::V1::ResultSet]
@@ -1312,10 +1334,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.read.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1359,7 +1382,7 @@ module Google
             #   @param options [::Gapic::CallOptions, ::Hash]
             #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
             #
-            # @overload streaming_read(session: nil, transaction: nil, table: nil, index: nil, columns: nil, key_set: nil, limit: nil, resume_token: nil, partition_token: nil, request_options: nil, directed_read_options: nil, data_boost_enabled: nil)
+            # @overload streaming_read(session: nil, transaction: nil, table: nil, index: nil, columns: nil, key_set: nil, limit: nil, resume_token: nil, partition_token: nil, request_options: nil, directed_read_options: nil, data_boost_enabled: nil, order_by: nil, lock_hint: nil)
             #   Pass arguments to `streaming_read` via keyword arguments. Note that at
             #   least one keyword argument is required. To specify no parameters, or to keep all
             #   the default parameter values, pass an empty Hash as a request object (see above).
@@ -1424,6 +1447,17 @@ module Google
             #
             #     If the field is set to `true` but the request does not set
             #     `partition_token`, the API returns an `INVALID_ARGUMENT` error.
+            #   @param order_by [::Google::Cloud::Spanner::V1::ReadRequest::OrderBy]
+            #     Optional. Order for the returned rows.
+            #
+            #     By default, Spanner will return result rows in primary key order except for
+            #     PartitionRead requests. For applications that do not require rows to be
+            #     returned in primary key (`ORDER_BY_PRIMARY_KEY`) order, setting
+            #     `ORDER_BY_NO_ORDER` option allows Spanner to optimize row retrieval,
+            #     resulting in lower latencies in certain cases (e.g. bulk point lookups).
+            #   @param lock_hint [::Google::Cloud::Spanner::V1::ReadRequest::LockHint]
+            #     Optional. Lock Hint for the request, it can only be used with read-write
+            #     transactions.
             #
             # @yield [response, operation] Access the result along with the RPC operation
             # @yieldparam response [::Enumerable<::Google::Cloud::Spanner::V1::PartialResultSet>]
@@ -1462,10 +1496,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.streaming_read.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1559,10 +1594,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.begin_transaction.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1685,10 +1721,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.commit.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1780,10 +1817,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.rollback.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1917,10 +1955,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.partition_query.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2043,10 +2082,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.partition_read.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -2162,10 +2202,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.batch_write.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Spanner::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}

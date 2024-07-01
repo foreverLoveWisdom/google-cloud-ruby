@@ -1,5 +1,17 @@
 # Release History
 
+### 1.50.0 (2024-06-27)
+
+#### Features
+
+* add method in load_job to set column name character map ([#26135](https://github.com/googleapis/google-cloud-ruby/issues/26135)) 
+
+### 1.49.1 (2024-06-05)
+
+#### Bug Fixes
+
+* Added bigdecimal to the gem dependencies ([#26012](https://github.com/googleapis/google-cloud-ruby/issues/26012)) 
+
 ### 1.49.0 (2024-03-10)
 
 #### Features

@@ -35,6 +35,9 @@ module Google
           #
           class Client
             # @private
+            API_VERSION = ""
+
+            # @private
             DEFAULT_ENDPOINT_TEMPLATE = "dataplex.$UNIVERSE_DOMAIN$"
 
             include Paths
@@ -284,10 +287,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.create_data_scan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -384,10 +388,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.update_data_scan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -480,10 +485,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.delete_data_scan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -571,10 +577,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_data_scan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -677,10 +684,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_data_scans.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -768,10 +776,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.run_data_scan.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -858,10 +867,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.get_data_scan_job.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -978,10 +988,11 @@ module Google
               # Customize the options with defaults
               metadata = @config.rpcs.list_data_scan_jobs.metadata.to_h
 
-              # Set x-goog-api-client and x-goog-user-project headers
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
               metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                 lib_name: @config.lib_name, lib_version: @config.lib_version,
                 gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
               metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
               header_params = {}
@@ -1002,6 +1013,100 @@ module Google
 
               @data_scan_service_stub.call_rpc :list_data_scan_jobs, request, options: options do |response, operation|
                 response = ::Gapic::PagedEnumerable.new @data_scan_service_stub, :list_data_scan_jobs, request, response, operation, options
+                yield response, operation if block_given?
+                return response
+              end
+            rescue ::GRPC::BadStatus => e
+              raise ::Google::Cloud::Error.from_error(e)
+            end
+
+            ##
+            # Generates recommended data quality rules based on the results of a data
+            # profiling scan.
+            #
+            # Use the recommendations to build rules for a data quality scan.
+            #
+            # @overload generate_data_quality_rules(request, options = nil)
+            #   Pass arguments to `generate_data_quality_rules` via a request object, either of type
+            #   {::Google::Cloud::Dataplex::V1::GenerateDataQualityRulesRequest} or an equivalent Hash.
+            #
+            #   @param request [::Google::Cloud::Dataplex::V1::GenerateDataQualityRulesRequest, ::Hash]
+            #     A request object representing the call parameters. Required. To specify no
+            #     parameters, or to keep all the default parameter values, pass an empty Hash.
+            #   @param options [::Gapic::CallOptions, ::Hash]
+            #     Overrides the default settings for this call, e.g, timeout, retries, etc. Optional.
+            #
+            # @overload generate_data_quality_rules(name: nil)
+            #   Pass arguments to `generate_data_quality_rules` via keyword arguments. Note that at
+            #   least one keyword argument is required. To specify no parameters, or to keep all
+            #   the default parameter values, pass an empty Hash as a request object (see above).
+            #
+            #   @param name [::String]
+            #     Required. The name must be one of the following:
+            #
+            #     * The name of a data scan with at least one successful, completed data
+            #     profiling job
+            #     * The name of a successful, completed data profiling job (a data scan job
+            #     where the job type is data profiling)
+            #
+            # @yield [response, operation] Access the result along with the RPC operation
+            # @yieldparam response [::Google::Cloud::Dataplex::V1::GenerateDataQualityRulesResponse]
+            # @yieldparam operation [::GRPC::ActiveCall::Operation]
+            #
+            # @return [::Google::Cloud::Dataplex::V1::GenerateDataQualityRulesResponse]
+            #
+            # @raise [::Google::Cloud::Error] if the RPC is aborted.
+            #
+            # @example Basic example
+            #   require "google/cloud/dataplex/v1"
+            #
+            #   # Create a client object. The client can be reused for multiple calls.
+            #   client = Google::Cloud::Dataplex::V1::DataScanService::Client.new
+            #
+            #   # Create a request. To set request fields, pass in keyword arguments.
+            #   request = Google::Cloud::Dataplex::V1::GenerateDataQualityRulesRequest.new
+            #
+            #   # Call the generate_data_quality_rules method.
+            #   result = client.generate_data_quality_rules request
+            #
+            #   # The returned object is of type Google::Cloud::Dataplex::V1::GenerateDataQualityRulesResponse.
+            #   p result
+            #
+            def generate_data_quality_rules request, options = nil
+              raise ::ArgumentError, "request must be provided" if request.nil?
+
+              request = ::Gapic::Protobuf.coerce request, to: ::Google::Cloud::Dataplex::V1::GenerateDataQualityRulesRequest
+
+              # Converts hash and nil to an options object
+              options = ::Gapic::CallOptions.new(**options.to_h) if options.respond_to? :to_h
+
+              # Customize the options with defaults
+              metadata = @config.rpcs.generate_data_quality_rules.metadata.to_h
+
+              # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
+              metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
+                lib_name: @config.lib_name, lib_version: @config.lib_version,
+                gapic_version: ::Google::Cloud::Dataplex::V1::VERSION
+              metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
+              metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
+
+              header_params = {}
+              if request.name
+                header_params["name"] = request.name
+              end
+
+              request_params_header = header_params.map { |k, v| "#{k}=#{v}" }.join("&")
+              metadata[:"x-goog-request-params"] ||= request_params_header
+
+              options.apply_defaults timeout:      @config.rpcs.generate_data_quality_rules.timeout,
+                                     metadata:     metadata,
+                                     retry_policy: @config.rpcs.generate_data_quality_rules.retry_policy
+
+              options.apply_defaults timeout:      @config.timeout,
+                                     metadata:     @config.metadata,
+                                     retry_policy: @config.retry_policy
+
+              @data_scan_service_stub.call_rpc :generate_data_quality_rules, request, options: options do |response, operation|
                 yield response, operation if block_given?
                 return response
               end
@@ -1202,6 +1307,11 @@ module Google
                 # @return [::Gapic::Config::Method]
                 #
                 attr_reader :list_data_scan_jobs
+                ##
+                # RPC-specific configuration for `generate_data_quality_rules`
+                # @return [::Gapic::Config::Method]
+                #
+                attr_reader :generate_data_quality_rules
 
                 # @private
                 def initialize parent_rpcs = nil
@@ -1221,6 +1331,8 @@ module Google
                   @get_data_scan_job = ::Gapic::Config::Method.new get_data_scan_job_config
                   list_data_scan_jobs_config = parent_rpcs.list_data_scan_jobs if parent_rpcs.respond_to? :list_data_scan_jobs
                   @list_data_scan_jobs = ::Gapic::Config::Method.new list_data_scan_jobs_config
+                  generate_data_quality_rules_config = parent_rpcs.generate_data_quality_rules if parent_rpcs.respond_to? :generate_data_quality_rules
+                  @generate_data_quality_rules = ::Gapic::Config::Method.new generate_data_quality_rules_config
 
                   yield self if block_given?
                 end

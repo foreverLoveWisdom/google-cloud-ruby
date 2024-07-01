@@ -258,6 +258,30 @@ module Google
           extend ::Google::Protobuf::MessageExts::ClassMethods
         end
 
+        # Request details for generating data quality rule recommendations.
+        # @!attribute [rw] name
+        #   @return [::String]
+        #     Required. The name must be one of the following:
+        #
+        #     * The name of a data scan with at least one successful, completed data
+        #     profiling job
+        #     * The name of a successful, completed data profiling job (a data scan job
+        #     where the job type is data profiling)
+        class GenerateDataQualityRulesRequest
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+        end
+
+        # Response details for data quality rule recommendations.
+        # @!attribute [rw] rule
+        #   @return [::Array<::Google::Cloud::Dataplex::V1::DataQualityRule>]
+        #     The data quality rules that Dataplex generates based on the results
+        #     of a data profiling scan.
+        class GenerateDataQualityRulesResponse
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+        end
+
         # Represents a user-visible job which provides the insights for the related
         # data source.
         #
@@ -355,6 +379,9 @@ module Google
           # @!attribute [rw] latest_job_end_time
           #   @return [::Google::Protobuf::Timestamp]
           #     The time when the latest DataScanJob ended.
+          # @!attribute [rw] latest_job_create_time
+          #   @return [::Google::Protobuf::Timestamp]
+          #     Optional. The time when the DataScanJob execution was created.
           class ExecutionStatus
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods

@@ -1,5 +1,23 @@
 # Changelog
 
+### 0.20.0 (2024-05-23)
+
+#### Features
+
+* add Skaffold verbose support to Execution Environment properties ([#25912](https://github.com/googleapis/google-cloud-ruby/issues/25912)) 
+
+### 0.19.1 (2024-05-15)
+
+#### Documentation
+
+* Updates and clarifications to some format specifications ([#25834](https://github.com/googleapis/google-cloud-ruby/issues/25834)) 
+
+### 0.19.0 (2024-04-25)
+
+#### Features
+
+* add Skaffold remote config support for Google Cloud Build repos ([#25742](https://github.com/googleapis/google-cloud-ruby/issues/25742)) 
+
 ### 0.18.0 (2024-02-26)
 
 #### Features

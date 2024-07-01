@@ -53,6 +53,10 @@ module Google
           #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::BigQueryExport]
           #     Optional. If set, results will be exported to the provided BigQuery
           #     table.
+          # @!attribute [rw] notification_report
+          #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::NotificationReport]
+          #     Optional. If set, results will be sent to the provided notification
+          #     receipts upon triggers.
           class PostScanActions
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -64,6 +68,59 @@ module Google
             #     Format:
             #     //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID
             class BigQueryExport
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+
+            # The individuals or groups who are designated to receive notifications
+            # upon triggers.
+            # @!attribute [rw] emails
+            #   @return [::Array<::String>]
+            #     Optional. The email recipients who will receive the DataQualityScan
+            #     results report.
+            class Recipients
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+
+            # This trigger is triggered when the DQ score in the job result is less
+            # than a specified input score.
+            # @!attribute [rw] score_threshold
+            #   @return [::Float]
+            #     Optional. The score range is in [0,100].
+            class ScoreThresholdTrigger
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+
+            # This trigger is triggered when the scan job itself fails, regardless of
+            # the result.
+            class JobFailureTrigger
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+
+            # This trigger is triggered whenever a scan job run ends, regardless
+            # of the result.
+            class JobEndTrigger
+              include ::Google::Protobuf::MessageExts
+              extend ::Google::Protobuf::MessageExts::ClassMethods
+            end
+
+            # The configuration of notification report post scan action.
+            # @!attribute [rw] recipients
+            #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::Recipients]
+            #     Required. The recipients who will receive the notification report.
+            # @!attribute [rw] score_threshold_trigger
+            #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::ScoreThresholdTrigger]
+            #     Optional. If set, report will be sent when score threshold is met.
+            # @!attribute [rw] job_failure_trigger
+            #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::JobFailureTrigger]
+            #     Optional. If set, report will be sent when a scan job fails.
+            # @!attribute [rw] job_end_trigger
+            #   @return [::Google::Cloud::Dataplex::V1::DataQualitySpec::PostScanActions::JobEndTrigger]
+            #     Optional. If set, report will be sent when a scan job ends.
+            class NotificationReport
               include ::Google::Protobuf::MessageExts
               extend ::Google::Protobuf::MessageExts::ClassMethods
             end
@@ -182,6 +239,12 @@ module Google
         #     The query to find rows that did not pass this rule.
         #
         #     This field is only valid for row-level type rules.
+        # @!attribute [r] assertion_row_count
+        #   @return [::Integer]
+        #     Output only. The number of rows returned by the SQL statement in a SQL
+        #     assertion rule.
+        #
+        #     This field is only valid for SQL assertion rules.
         class DataQualityRuleResult
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -250,6 +313,10 @@ module Google
         #   @return [::Google::Cloud::Dataplex::V1::DataQualityRule::TableConditionExpectation]
         #     Aggregate rule which evaluates whether the provided expression is true
         #     for a table.
+        # @!attribute [rw] sql_assertion
+        #   @return [::Google::Cloud::Dataplex::V1::DataQualityRule::SqlAssertion]
+        #     Aggregate rule which evaluates the number of rows returned for the
+        #     provided statement. If any rows are returned, this rule fails.
         # @!attribute [rw] column
         #   @return [::String]
         #     Optional. The unnested column which this rule is evaluated against.
@@ -427,6 +494,27 @@ module Google
           #   @return [::String]
           #     Optional. The SQL expression.
           class TableConditionExpectation
+            include ::Google::Protobuf::MessageExts
+            extend ::Google::Protobuf::MessageExts::ClassMethods
+          end
+
+          # A SQL statement that is evaluated to return rows that match an invalid
+          # state. If any rows are are returned, this rule fails.
+          #
+          # The SQL statement must use BigQuery standard SQL syntax, and must not
+          # contain any semicolons.
+          #
+          # You can use the data reference parameter `${data()}` to reference the
+          # source table with all of its precondition filters applied. Examples of
+          # precondition filters include row filters, incremental data filters, and
+          # sampling. For more information, see [Data reference
+          # parameter](https://cloud.google.com/dataplex/docs/auto-data-quality-overview#data-reference-parameter).
+          #
+          # Example: `SELECT * FROM ${data()} WHERE price < 0`
+          # @!attribute [rw] sql_statement
+          #   @return [::String]
+          #     Optional. The SQL statement.
+          class SqlAssertion
             include ::Google::Protobuf::MessageExts
             extend ::Google::Protobuf::MessageExts::ClassMethods
           end

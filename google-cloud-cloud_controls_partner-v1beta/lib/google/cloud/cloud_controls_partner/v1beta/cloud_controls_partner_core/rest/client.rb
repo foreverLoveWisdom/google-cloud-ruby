@@ -33,6 +33,9 @@ module Google
             #
             class Client
               # @private
+              API_VERSION = ""
+
+              # @private
               DEFAULT_ENDPOINT_TEMPLATE = "cloudcontrolspartner.$UNIVERSE_DOMAIN$"
 
               include Paths
@@ -208,7 +211,7 @@ module Google
               #
               #   @param name [::String]
               #     Required. Format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}/workloads/\\{workload}
+              #     `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::CloudControlsPartner::V1beta::Workload]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -243,12 +246,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_workload.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_workload.timeout,
@@ -288,7 +292,7 @@ module Google
               #   @param parent [::String]
               #     Required. Parent resource
               #     Format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}
+              #     `organizations/{organization}/locations/{location}/customers/{customer}`
               #   @param page_size [::Integer]
               #     The maximum number of workloads to return. The service may return fewer
               #     than this value. If unspecified, at most 500 workloads will be returned.
@@ -337,12 +341,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.list_workloads.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.list_workloads.timeout,
@@ -381,7 +386,7 @@ module Google
               #
               #   @param name [::String]
               #     Required. Format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}
+              #     `organizations/{organization}/locations/{location}/customers/{customer}`
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::CloudControlsPartner::V1beta::Customer]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -416,12 +421,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_customer.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_customer.timeout,
@@ -460,7 +466,7 @@ module Google
               #
               #   @param parent [::String]
               #     Required. Parent resource
-              #     Format: organizations/\\{organization}/locations/\\{location}
+              #     Format: `organizations/{organization}/locations/{location}`
               #   @param page_size [::Integer]
               #     The maximum number of Customers to return. The service may return fewer
               #     than this value. If unspecified, at most 500 Customers will be returned.
@@ -509,12 +515,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.list_customers.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.list_customers.timeout,
@@ -553,7 +560,7 @@ module Google
               #
               #   @param name [::String]
               #     Required. Format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}/workloads/\\{workload}/ekmConnections
+              #     `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections`
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::CloudControlsPartner::V1beta::EkmConnections]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -588,12 +595,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_ekm_connections.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_ekm_connections.timeout,
@@ -632,7 +640,7 @@ module Google
               #
               #   @param name [::String]
               #     Required. Name of the resource to get in the format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}/workloads/\\{workload}/partnerPermissions
+              #     `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::CloudControlsPartner::V1beta::PartnerPermissions]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -667,12 +675,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_partner_permissions.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_partner_permissions.timeout,
@@ -692,7 +701,8 @@ module Google
               end
 
               ##
-              # Lists access requests associated with a workload
+              # Deprecated: Only returns access approval requests directly associated with
+              # an assured workload folder.
               #
               # @overload list_access_approval_requests(request, options = nil)
               #   Pass arguments to `list_access_approval_requests` via a request object, either of type
@@ -712,7 +722,7 @@ module Google
               #   @param parent [::String]
               #     Required. Parent resource
               #     Format:
-              #     organizations/\\{organization}/locations/\\{location}/customers/\\{customer}/workloads/\\{workload}
+              #     `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
               #   @param page_size [::Integer]
               #     Optional. The maximum number of access requests to return. The service may
               #     return fewer than this value. If unspecified, at most 500 access requests
@@ -763,12 +773,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.list_access_approval_requests.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.list_access_approval_requests.timeout,
@@ -806,7 +817,8 @@ module Google
               #   the default parameter values, pass an empty Hash as a request object (see above).
               #
               #   @param name [::String]
-              #     Required. Format: organizations/\\{organization}/locations/\\{location}/partner
+              #     Required. Format:
+              #     `organizations/{organization}/locations/{location}/partner`
               # @yield [result, operation] Access the result along with the TransportOperation object
               # @yieldparam result [::Google::Cloud::CloudControlsPartner::V1beta::Partner]
               # @yieldparam operation [::Gapic::Rest::TransportOperation]
@@ -841,12 +853,13 @@ module Google
                 # Customize the options with defaults
                 call_metadata = @config.rpcs.get_partner.metadata.to_h
 
-                # Set x-goog-api-client and x-goog-user-project headers
+                # Set x-goog-api-client, x-goog-user-project and x-goog-api-version headers
                 call_metadata[:"x-goog-api-client"] ||= ::Gapic::Headers.x_goog_api_client \
                   lib_name: @config.lib_name, lib_version: @config.lib_version,
                   gapic_version: ::Google::Cloud::CloudControlsPartner::V1beta::VERSION,
                   transports_version_send: [:rest]
 
+                call_metadata[:"x-goog-api-version"] = API_VERSION unless API_VERSION.empty?
                 call_metadata[:"x-goog-user-project"] = @quota_project_id if @quota_project_id
 
                 options.apply_defaults timeout:      @config.rpcs.get_partner.timeout,

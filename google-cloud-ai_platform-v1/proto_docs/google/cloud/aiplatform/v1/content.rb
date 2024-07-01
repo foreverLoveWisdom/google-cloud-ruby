@@ -77,15 +77,16 @@ module Google
           extend ::Google::Protobuf::MessageExts::ClassMethods
         end
 
-        # Raw media bytes.
+        # Content blob.
         #
-        # Text should not be sent as raw bytes, use the 'text' field.
+        # It's preferred to send as {::Google::Cloud::AIPlatform::V1::Part#text text}
+        # directly rather than raw bytes.
         # @!attribute [rw] mime_type
         #   @return [::String]
         #     Required. The IANA standard MIME type of the source data.
         # @!attribute [rw] data
         #   @return [::String]
-        #     Required. Raw bytes for media formats.
+        #     Required. Raw bytes.
         class Blob
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -134,6 +135,30 @@ module Google
         # @!attribute [rw] stop_sequences
         #   @return [::Array<::String>]
         #     Optional. Stop sequences.
+        # @!attribute [rw] presence_penalty
+        #   @return [::Float]
+        #     Optional. Positive penalties.
+        # @!attribute [rw] frequency_penalty
+        #   @return [::Float]
+        #     Optional. Frequency penalties.
+        # @!attribute [rw] response_mime_type
+        #   @return [::String]
+        #     Optional. Output response mimetype of the generated candidate text.
+        #     Supported mimetype:
+        #     - `text/plain`: (default) Text output.
+        #     - `application/json`: JSON response in the candidates.
+        #     The model needs to be prompted to output the appropriate response type,
+        #     otherwise the behavior is undefined.
+        #     This is a preview feature.
+        # @!attribute [rw] response_schema
+        #   @return [::Google::Cloud::AIPlatform::V1::Schema]
+        #     Optional. The `Schema` object allows the definition of input and output
+        #     data types. These types can be objects, but also primitives and arrays.
+        #     Represents a select subset of an [OpenAPI 3.0 schema
+        #     object](https://spec.openapis.org/oas/v3.0.3#schema).
+        #     If set, a compatible response_mime_type must also be set.
+        #     Compatible mimetypes:
+        #     `application/json`: Schema for JSON response.
         class GenerationConfig
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -146,6 +171,10 @@ module Google
         # @!attribute [rw] threshold
         #   @return [::Google::Cloud::AIPlatform::V1::SafetySetting::HarmBlockThreshold]
         #     Required. The harm block threshold.
+        # @!attribute [rw] method
+        #   @return [::Google::Cloud::AIPlatform::V1::SafetySetting::HarmBlockMethod]
+        #     Optional. Specify if the threshold is used for probability or severity
+        #     score. If not specified, the threshold is used for probability score.
         class SafetySetting
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
@@ -166,6 +195,18 @@ module Google
 
             # Block none.
             BLOCK_NONE = 4
+          end
+
+          # Probability vs severity.
+          module HarmBlockMethod
+            # The harm block method is unspecified.
+            HARM_BLOCK_METHOD_UNSPECIFIED = 0
+
+            # The harm block method uses both probability and severity scores.
+            SEVERITY = 1
+
+            # The harm block method uses the probability score.
+            PROBABILITY = 2
           end
         end
 
@@ -328,51 +369,9 @@ module Google
             # The token generation was stopped as the response was flagged for
             # Sensitive Personally Identifiable Information (SPII) contents.
             SPII = 8
-          end
-        end
 
-        # Segment of the content.
-        # @!attribute [r] part_index
-        #   @return [::Integer]
-        #     Output only. The index of a Part object within its parent Content object.
-        # @!attribute [r] start_index
-        #   @return [::Integer]
-        #     Output only. Start index in the given Part, measured in bytes. Offset from
-        #     the start of the Part, inclusive, starting at zero.
-        # @!attribute [r] end_index
-        #   @return [::Integer]
-        #     Output only. End index in the given Part, measured in bytes. Offset from
-        #     the start of the Part, exclusive, starting at zero.
-        class Segment
-          include ::Google::Protobuf::MessageExts
-          extend ::Google::Protobuf::MessageExts::ClassMethods
-        end
-
-        # Grounding attribution.
-        # @!attribute [rw] web
-        #   @return [::Google::Cloud::AIPlatform::V1::GroundingAttribution::Web]
-        #     Optional. Attribution from the web.
-        # @!attribute [r] segment
-        #   @return [::Google::Cloud::AIPlatform::V1::Segment]
-        #     Output only. Segment of the content this attribution belongs to.
-        # @!attribute [r] confidence_score
-        #   @return [::Float]
-        #     Optional. Output only. Confidence score of the attribution. Ranges from 0
-        #     to 1. 1 is the most confident.
-        class GroundingAttribution
-          include ::Google::Protobuf::MessageExts
-          extend ::Google::Protobuf::MessageExts::ClassMethods
-
-          # Attribution from the web.
-          # @!attribute [r] uri
-          #   @return [::String]
-          #     Output only. URI reference of the attribution.
-          # @!attribute [r] title
-          #   @return [::String]
-          #     Output only. Title of the attribution.
-          class Web
-            include ::Google::Protobuf::MessageExts
-            extend ::Google::Protobuf::MessageExts::ClassMethods
+            # The function call generated by the model is invalid.
+            MALFORMED_FUNCTION_CALL = 9
           end
         end
 
@@ -380,10 +379,24 @@ module Google
         # @!attribute [rw] web_search_queries
         #   @return [::Array<::String>]
         #     Optional. Web search queries for the following-up web search.
-        # @!attribute [rw] grounding_attributions
-        #   @return [::Array<::Google::Cloud::AIPlatform::V1::GroundingAttribution>]
-        #     Optional. List of grounding attributions.
+        # @!attribute [rw] search_entry_point
+        #   @return [::Google::Cloud::AIPlatform::V1::SearchEntryPoint]
+        #     Optional. Google search entry for the following-up web searches.
         class GroundingMetadata
+          include ::Google::Protobuf::MessageExts
+          extend ::Google::Protobuf::MessageExts::ClassMethods
+        end
+
+        # Google search entry point.
+        # @!attribute [rw] rendered_content
+        #   @return [::String]
+        #     Optional. Web content snippet that can be embedded in a web page or an app
+        #     webview.
+        # @!attribute [rw] sdk_blob
+        #   @return [::String]
+        #     Optional. Base64 encoded JSON representing array of <search term, search
+        #     url> tuple.
+        class SearchEntryPoint
           include ::Google::Protobuf::MessageExts
           extend ::Google::Protobuf::MessageExts::ClassMethods
         end

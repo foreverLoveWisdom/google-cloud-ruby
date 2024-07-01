@@ -42,6 +42,7 @@ module Google
         #   @return [::Google::Protobuf::Map{::String => ::Google::Cloud::DiscoveryEngine::V1beta::DocumentProcessingConfig::ParsingConfig}]
         #     Map from file type to override the default parsing configuration based on
         #     the file type. Supported keys:
+        #
         #     * `pdf`: Override parsing config for PDF files, either digital parsing, ocr
         #     parsing or layout parsing is supported.
         #     * `html`: Override parsing config for HTML files, only digital parsing and
@@ -72,12 +73,10 @@ module Google
 
             # The OCR parsing configurations for documents.
             # @!attribute [rw] enhanced_document_elements
+            #   @deprecated This field is deprecated and may be removed in the next major version update.
             #   @return [::Array<::String>]
-            #     Apply additional enhanced OCR processing to a list of document
-            #     elements.
-            #
-            #     Supported values:
-            #     * `table`: advanced table parsing model.
+            #     [DEPRECATED] This field is deprecated. To use the additional enhanced
+            #     document elements processing, please switch to `layout_parsing_config`.
             # @!attribute [rw] use_native_text
             #   @return [::Boolean]
             #     If true, will use native text instead of OCR text on pages containing

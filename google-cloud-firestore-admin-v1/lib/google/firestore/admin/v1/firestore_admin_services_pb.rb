@@ -120,6 +120,15 @@ module Google
               # created. If an ImportDocuments operation is cancelled, it is possible
               # that a subset of the data has already been imported to Cloud Firestore.
               rpc :ImportDocuments, ::Google::Cloud::Firestore::Admin::V1::ImportDocumentsRequest, ::Google::Longrunning::Operation
+              # Bulk deletes a subset of documents from Google Cloud Firestore.
+              # Documents created or updated after the underlying system starts to process
+              # the request will not be deleted. The bulk delete occurs in the background
+              # and its progress can be monitored and managed via the Operation resource
+              # that is created.
+              #
+              # For more details on bulk delete behavior, refer to:
+              # https://cloud.google.com/firestore/docs/manage-data/bulk-delete
+              rpc :BulkDeleteDocuments, ::Google::Cloud::Firestore::Admin::V1::BulkDeleteDocumentsRequest, ::Google::Longrunning::Operation
               # Create a database.
               rpc :CreateDatabase, ::Google::Cloud::Firestore::Admin::V1::CreateDatabaseRequest, ::Google::Longrunning::Operation
               # Gets information about a database.
@@ -140,7 +149,7 @@ module Google
               #
               # The new database must be in the same cloud region or multi-region location
               # as the existing backup. This behaves similar to
-              # [FirestoreAdmin.CreateDatabase][google.firestore.admin.v1.CreateDatabase]
+              # [FirestoreAdmin.CreateDatabase][google.firestore.admin.v1.FirestoreAdmin.CreateDatabase]
               # except instead of creating a new empty database, a new database is created
               # with the database type, index configuration, and documents from an existing
               # backup.
@@ -156,8 +165,7 @@ module Google
               rpc :RestoreDatabase, ::Google::Cloud::Firestore::Admin::V1::RestoreDatabaseRequest, ::Google::Longrunning::Operation
               # Creates a backup schedule on a database.
               # At most two backup schedules can be configured on a database, one daily
-              # backup schedule with retention up to 7 days and one weekly backup schedule
-              # with retention up to 14 weeks.
+              # backup schedule and one weekly backup schedule.
               rpc :CreateBackupSchedule, ::Google::Cloud::Firestore::Admin::V1::CreateBackupScheduleRequest, ::Google::Cloud::Firestore::Admin::V1::BackupSchedule
               # Gets information about a backup schedule.
               rpc :GetBackupSchedule, ::Google::Cloud::Firestore::Admin::V1::GetBackupScheduleRequest, ::Google::Cloud::Firestore::Admin::V1::BackupSchedule
